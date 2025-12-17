@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #135bec;
+  --light: #f6f6f8;
+}
+
+@theme inline {
+  --color-primary: #135bec;
+  --color-background-light: #f6f6f8;
+  --color-background-dark: #101622;
+}
+
+body {
+  min-height: max(884px, 100dvh);
+  font-family: var(--modam-font);
+}
+
+@layer base {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
