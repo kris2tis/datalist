@@ -5,11 +5,11 @@ import ProductPageHeader from "../../../features/admin/components/product-page-h
 import { ProductTable } from "../../../features/admin/components/product-table-row";
 export const dynamic = "force-dynamic";
 export default async function Page() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
   const { productList } = await http
-    .get("/admin/product")
+    .get(`${baseUrl}/admin/product`)
     .then(({ data }) => data);
- 
-    
+
   return (
     <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased min-h-screen flex flex-col">
       <main className="flex-1 w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8 flex flex-col gap-6">

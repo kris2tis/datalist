@@ -2,8 +2,9 @@ import { http } from "../../../httpServices";
 import PaymentTable from "../../../features/admin/components/payment-table";
 export const dynamic = "force-dynamic";
 export default async function page() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
   const { paymentList } = await http
-    .get("/admin/payment")
+    .get(`${baseUrl}/admin/payment`)
     .then(({ data }) => data);
   return (
     <div>
@@ -15,7 +16,7 @@ export default async function page() {
           <p class="text-[#9db8a6] text-sm">لیست کامل تراکنش‌های انجام شده</p>
         </div>
       </div>
-      <PaymentTable  data={paymentList} />
+      <PaymentTable data={paymentList} />
     </div>
   );
 }

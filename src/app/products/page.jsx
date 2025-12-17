@@ -11,8 +11,7 @@ export default async function Page({ searchParams }) {
   }${queries?.sort ? `?sort=${queries.sort}&` : ""}${
     queries?.gte ? `?gte=${queries.gte}&` : ""
   }${queries?.lte ? `lte=${queries.lte}` : ""}`;
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3000";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
   const { productList } = await http
     .get(`${baseUrl}/product${queriesFormated}`)
     .then(({ data }) => data);
