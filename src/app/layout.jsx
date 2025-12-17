@@ -61,7 +61,7 @@ export default function RootLayout({ children }) {
               className="text-xs text-slate-400 pt-4 border-t border-gray-100 dark:border-gray-800"
               dir="ltr"
             >
-              © 2024 Datalist Inc. All rights reserved.
+              همه قوانین
             </div>
           </div>
         </footer>
