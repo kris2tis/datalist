@@ -3,7 +3,7 @@ import { http } from "../../../httpServices";
 
 import ProductPageHeader from "../../../features/admin/components/product-page-header";
 import { ProductTable } from "../../../features/admin/components/product-table-row";
-
+export const dynamic = "force-dynamic";
 export default async function Page() {
   const { productList } = await http
     .get("/admin/product")

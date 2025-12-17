@@ -1,6 +1,6 @@
 import { http } from "../../../httpServices";
 import PaymentTable from "../../../features/admin/components/payment-table";
-
+export const dynamic = "force-dynamic";
 export default async function page() {
   const { paymentList } = await http
     .get("/admin/payment")
