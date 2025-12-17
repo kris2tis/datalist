@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const app = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
+  baseURL: "/api",
   withCredentials: true,
 });
 
@@ -10,7 +10,5 @@ export const http = {
   post: app.post,
   put: app.put,
   put: app.put,
-  delete:app.delete
+  delete: app.delete,
 };
-
-
