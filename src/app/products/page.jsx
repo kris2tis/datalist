@@ -21,7 +21,7 @@ export default async function Page({ searchParams }) {
 
   const user = userId
     ? await http
-        .get("/user", {
+        .get(`${baseUrl}/user`, {
           headers: { userId: userId },
         })
         .then(({ data }) => data.user)
