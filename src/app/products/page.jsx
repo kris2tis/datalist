@@ -11,9 +11,8 @@ export default async function Page({ searchParams }) {
   }${queries?.sort ? `?sort=${queries.sort}&` : ""}${
     queries?.gte ? `?gte=${queries.gte}&` : ""
   }${queries?.lte ? `lte=${queries.lte}` : ""}`;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
   const { productList } = await http
-    .get(`${baseUrl}/product${queriesFormated}`)
+    .get(`/product${queriesFormated}`)
     .then(({ data }) => data);
 
   const cookiesStore = await cookies();
@@ -21,7 +20,7 @@ export default async function Page({ searchParams }) {
 
   const user = userId
     ? await http
-        .get(`${baseUrl}/user`, {
+        .get(`/user`, {
           headers: { userId: userId },
         })
         .then(({ data }) => data.user)

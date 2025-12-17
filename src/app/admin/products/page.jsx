@@ -5,9 +5,8 @@ import ProductPageHeader from "../../../features/admin/components/product-page-h
 import { ProductTable } from "../../../features/admin/components/product-table-row";
 export const dynamic = "force-dynamic";
 export default async function Page() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
   const { productList } = await http
-    .get(`${baseUrl}/admin/product`)
+    .get(`/admin/product`)
     .then(({ data }) => data);
 
   return (

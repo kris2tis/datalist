@@ -13,9 +13,9 @@ import Link from "next/link";
 export default async function page() {
   const cookiesStore = await cookies();
   const id = cookiesStore.get("id").value;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+ 
   const user = await http
-    .get(`${baseUrl}/cart`, {
+    .get(`/cart`, {
       headers: {
         id: id,
       },

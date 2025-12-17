@@ -4,8 +4,7 @@ import React from "react";
 import UserInfo from "../../features/user/components/user-info";
 
 export default async function Page() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
-  const user = await http.get(`${baseUrl}/get-profile`, {
+  const user = await http.get(`/get-profile`, {
     headers: await headers(),
   });
   return <UserInfo data={user.data.user} />;

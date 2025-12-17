@@ -2,9 +2,8 @@ import { http } from "../../../httpServices";
 import PaymentTable from "../../../features/admin/components/payment-table";
 export const dynamic = "force-dynamic";
 export default async function page() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
   const { paymentList } = await http
-    .get(`${baseUrl}/admin/payment`)
+    .get(`/admin/payment`)
     .then(({ data }) => data);
   return (
     <div>
