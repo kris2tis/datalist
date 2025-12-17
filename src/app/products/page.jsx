@@ -11,9 +11,12 @@ export default async function Page({ searchParams }) {
   }${queries?.sort ? `?sort=${queries.sort}&` : ""}${
     queries?.gte ? `?gte=${queries.gte}&` : ""
   }${queries?.lte ? `lte=${queries.lte}` : ""}`;
+  const baseUrl =
+    process.env.NEXT_PUBLIC_BASE_API_URL || "http://localhost:3000";
+  const { productList } = await http
+    .get(`${baseUrl}/product${queriesFormated}`)
+    .then(({ data }) => data);
 
-  const { productList } = await http.get(`/product${queriesFormated}`).then(({ data }) => data);
-  
   const cookiesStore = await cookies();
   const userId = cookiesStore.get("id")?.value;
 
@@ -24,7 +27,7 @@ export default async function Page({ searchParams }) {
         })
         .then(({ data }) => data.user)
     : {};
- 
+
   return (
     <div className=" dark:bg-background-dark text-[#111318]  font-display min-h-screen flex flex-col gap-y-15 overflow-x-hidden antialiased selection:bg-primary selection:text-white">
       <FilterBar />
