@@ -1,11 +1,5 @@
 import Sidebar from "../../features/admin/components/sidebar";
-import Header from "../../features/admin/components/admin-header"; // منظور همان Top Header است
-
-const adminNavigation = [
-  { name: "ساخت محصول", href: "/admin/create-product" },
-  { name: "ساخت دسته بندی", href: "/admin/create-category" },
-  { name: "کاربران", href: "/admin/users" },
-];
+import Header from "../../features/admin/components/admin-header"; 
 
 export default function AdminLayout({ children }) {
   return (
