@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { http } from "../../../httpServices";
 import { uploadFile } from "../../../action/file";
 import Image from "next/image";
@@ -11,7 +11,12 @@ import { useRouter } from "next/navigation";
 
 const createProductSchema = zod.object({
   title: zod.string("تایتل صروری است").min(5, "حداقل باید 5 کارکاتر باشد"),
-  price: zod.string("قیمت ضروری است"),
+  price: zod.preprocess((val) => {
+    if (typeof val === "string") {
+      return Number.parseInt(val);
+    }
+    return val;
+  }, zod.number("قیمت ضروری است")),
   categoryId: zod.preprocess((val) => {
     if (typeof val === "string") {
       return Number.parseInt(val);
@@ -25,6 +30,14 @@ const createProductSchema = zod.object({
     }
     return val;
   }, zod.number("تعداد ضروری است").min(1, "تعداد حداقل باید 1 باشد")),
+  properties: zod
+    .array(
+      zod.object({
+        name: zod.string().min(1),
+        value: zod.string().min(1),
+      })
+    )
+    .min(2, "ویژگی کمتر از 2 تا نمیشود"),
 });
 
 //  image: zod
@@ -36,7 +49,7 @@ export default function Page() {
   const {
     handleSubmit,
     register,
-    setValue,
+    control,
     formState: { errors },
   } = useForm({ resolver: zodResolver(createProductSchema), mode: "all" });
 
@@ -45,24 +58,23 @@ export default function Page() {
   const { push } = useRouter();
   const handleCreateProduct = async (e) => {
     // const image = await uploadFile(e.image);
-    const data = { ...e };
+    // const data = { ...e };
     try {
       setIsLoading(true);
-      const message = await http.post("/product", e).then(({ data }) => data);
-
+      const { message } = await http
+        .post("/product", e)
+        .then(({ data }) => data);
       toast.success(message);
       setIsLoading(false);
       push("/admin/products");
     } catch (error) {
-      const errorMessage = error?.response?.data || "خطا";
-      setIsLoading(false);
+      const errorMessage = error?.response?.data?.message || "خطا";
+      
       toast.error(errorMessage);
+      setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    console.log("VALIDATION ERORS : ", errors);
-  }, [errors]);
   return (
     <div className="flex-1 overflow-y-hidden p-6 lg:p-10">
       <div className="mx-auto w-full ">
@@ -91,6 +103,7 @@ export default function Page() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             <div className="lg:col-span-2 flex flex-col gap-6">
               <GeneralInfoCard register={register} />
+              <Property control={control} />
             </div>
 
             <div className="lg:col-span-1 flex flex-col gap-6">
@@ -104,6 +117,90 @@ export default function Page() {
     </div>
   );
 }
+
+const Property = ({ control }) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "properties",
+  });
+  const [property, setProperty] = useState({ name: null, value: null });
+
+  const addProperty = () => {
+    const findProperty = fields.find((p) => p.name === property.name);
+
+    if (findProperty?.name) {
+      return toast.error("شما یک ویژگی با این نام دارید");
+    }
+    append(property);
+  };
+
+  return (
+    <>
+      <div className="flex items-center gap-x-3 ">
+        <input
+          onChange={(e) =>
+            setProperty((prev) => ({
+              ...prev,
+              name: e.target.value,
+            }))
+          }
+          className="p-2 border rounded-md"
+          placeholder="نام ویژگی"
+          type="text"
+          name="name"
+        />
+        <input
+          onChange={(e) =>
+            setProperty((prev) => ({ ...prev, value: e.target.value }))
+          }
+          className="p-2 border rounded-md"
+          placeholder="مقدار ویژگی"
+          type="text"
+          name="value"
+        />
+        <button
+          onClick={addProperty}
+          type="button"
+          className="p-2 border rounded-md cursor-pointer"
+        >
+          ساخت ویژگی محصول
+        </button>
+      </div>
+
+      <div className="grid grid-cols-3 gap-x-2">
+        {fields.map((p, index) => {
+          const { name, value } = p;
+          return (
+            <div
+              key={p.id}
+              className="col-span-1 flex flex-col   rounded-md bg-gray-300 p-2"
+            >
+              <Controller
+                key={index}
+                render={({ field }) => (
+                  <>
+                    <div className="flex justify-between items-center">
+                      <span className="text-black/70">{name}</span>
+                      <span
+                        onClick={() => remove(index)}
+                        className="bg-red-400 text-[10px] text-white rounded-md p-1 cursor-pointer"
+                      >
+                        حذف
+                      </span>
+                    </div>
+                    <span className="text-black">{value}</span>
+                  </>
+                )}
+                name={`property.${index}`}
+                control={control}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </>
+  );
+};
 
 function ImageUploader({ register, image, setImage, setValue }) {
   return (
