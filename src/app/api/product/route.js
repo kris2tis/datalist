@@ -18,16 +18,23 @@ export async function GET(request) {
     },
     orderBy: { createdAt: sort },
   });
-  
+
   return Response.json(
     { productList: productList, message: "محصولات" },
     { status: 200 }
   );
 }
 
+// Create Product
+
 const createProductSchema = zod.object({
   title: zod.string("تایتل صروری است").min(5, "حداقل باید 5 کارکاتر باشد"),
-  price: zod.string("قیمت ضروری است"),
+  price: zod.preprocess((val) => {
+    if (typeof val === "string") {
+      return Number.parseInt(val);
+    }
+    return val;
+  }, zod.number("قیمت ضروری است")),
   categoryId: zod.preprocess((val) => {
     if (typeof val === "string") {
       return Number.parseInt(val);
@@ -40,6 +47,14 @@ const createProductSchema = zod.object({
     }
     return val;
   }, zod.number("تعداد ضروری است").min(1, "تعداد حداقل باید 1 باشد")),
+  properties: zod
+    .array(
+      zod.object({
+        name: zod.string().min(1),
+        value: zod.string().min(1),
+      })
+    )
+    .min(2, "ویژگی کمتر از 2 تا نمیشود"),
 });
 
 export async function POST(req) {
@@ -61,13 +76,25 @@ export async function POST(req) {
   }
   const result = createProductSchema.safeParse(body);
   if (result?.success) {
-    await prisma.product.create({ data: data });
-    return Response.json("محصول با موفقیت ساخته شد", { status: 200 });
+    await prisma.product.create({
+      data: {
+        title: data.title,
+        price: data.price,
+        categoryId: data.categoryId,
+        quantity: data.quantity,
+        properties: { createMany: { data: [...body.properties] } },
+      },
+    });
+
+    return Response.json(
+      { message: "محصول با موفقیت ساخته شد" },
+      { status: 200 }
+    );
   } else if (result?.error) {
     const { fieldErrors } = zod.flattenError(result.error);
     return Response.json(
       { errors: fieldErrors, message: "خطا" },
-      { status: 200 }
+      { status: 400 }
     );
   }
 }
