@@ -6,8 +6,7 @@ import * as zod from "zod";
 export async function GET() {
   const feedbacks = await prisma.comment.findMany({
     include: { user: true },
-    take: 2,
-    orderBy: { createdAt: "desc" },
+    take: 4,
   });
 
   return Response.json(

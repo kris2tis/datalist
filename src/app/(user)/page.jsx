@@ -134,7 +134,6 @@ export default function page() {
           </div>
         </div>
       </section>
-      {/* C */}
       <CommentList />
       <section className="p-4 py-10">
         <div className="bg-primary rounded-2xl p-8 text-center text-white flex flex-col gap-6 relative overflow-hidden shadow-xl shadow-primary/20">

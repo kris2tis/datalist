@@ -5,9 +5,9 @@ export default async function CommentList() {
     .get("/user/feedback")
     .then(({ data }) => data)
     .catch((err) => console.error(err));
-  const data = feedback?.date || [];
+  const data = feedback?.data || [];
   if (!data?.length) {
-    return <></>;
+    return null;
   }
   return (
     <section className="bg-slate-50 dark:bg-slate-800/30 py-12 px-4 border-y border-gray-100 dark:border-gray-700/50">
