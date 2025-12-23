@@ -1,69 +1,3 @@
-const paymentsData = [
-  {
-    id: "TRX-98234",
-    user: {
-      name: "علی محمدی",
-      email: "ali.mohammadi@example.com",
-      avatar:
-        "https://lh3.googleusercontent.com/aida-public/AB6AXuCZsQ51wkM1d5PzwNzIXXZ5-EkxgDtIMu4-CJqy_VVatvXDRTBJ51Ya2K1slmEZeStFCa3gccDXHxTORcX5EcsdgxtRttUX0Bxmt5p5ocMma15AGzhw2-98lV7lKB-Js2OzkZL33MH_yrioY8PlFQIm6Cp31w_vlsOXY-aaY7KUwni-5L5zYwrICoXbHeSZhYvtKg1E7c--itjn699Fac9j2omxbpfOzvJOl0uehK9ZoACaJTibMBWUyQ3WYFH40DMUbaOxXG1YjeuN",
-    },
-    date: "۱۴۰۲/۰۸/۱۲",
-    time: "۱۰:۳۰",
-    amount: "۲,۵۰۰,۰۰۰",
-    gateway: "زرین‌پال",
-    gatewayIcon: "account_balance",
-    status: "موفق",
-  },
-  {
-    id: "TRX-98235",
-    user: {
-      name: "سارا احمدی",
-      email: "sara.ahmadi@mail.com",
-      avatar:
-        "https://lh3.googleusercontent.com/aida-public/AB6AXuD0xO--cOxluPElIOd1s17JAFF6GDPcJG_VepnA-N63ryeARt8blfl5oUweQIlQqqTVNj3EsnF4q3PPYoz9hrbF5LIpgfkDDzT9wqIoxRObmeX7oy6N2cCzb5wwC6HKXBCYSYpreRHyC1bw-Jh_vICxe99x4z4DIeE1j2Rwji1x0fJ_XUJfuYzWp_0q8jcxrrkZvE2NDP85OQpNnjwztVizJqqlswn2GzEA8IGjMTS2L9A3rT0Ema_g6FIxbDmo3Z6uWeXtV5CnYT5Y",
-    },
-    date: "۱۴۰۲/۰۸/۱۲",
-    time: "۱۱:۱۵",
-    amount: "۱۴۵,۰۰۰",
-    gateway: "بانک ملت",
-    gatewayIcon: "credit_card",
-    status: "ناموفق",
-  },
-  {
-    id: "TRX-98236",
-    user: {
-      name: "رضا کاظمی",
-      email: "reza.kzm@test.com",
-      avatar:
-        "https://lh3.googleusercontent.com/aida-public/AB6AXuDezyH0mk_ILlqjd0LMFkRDrdsJEZm7dRzjrJcdrQzSCQEXG9LB8vqP6Typ_3tF4jU8UGD5R0Hzvk8ymptMIO51e22waGQWg9bgpxoBOXpoWKScJr1WPO3nQEr--ejaCs1G9mLnga9jr-2LZN23xRL7_2cyRxO1vmzvZHL0-CfTlzDX_jbPE-wFeIGQGrDxG3xCOh4RvFlkFHBrb6hoJTEvW1RuV2gU1aA1nnelEN25wNgSVj3KiCjw2l7l_8ajopyU7_7QcqqYha28",
-    },
-    date: "۱۴۰۲/۰۸/۱۱",
-    time: "۱۶:۴۵",
-    amount: "۸,۹۰۰,۰۰۰",
-    gateway: "زرین‌پال",
-    gatewayIcon: "account_balance",
-    status: "در انتظار",
-  },
-  {
-    id: "TRX-98237",
-    user: {
-      name: "محمد حسینی",
-      email: "m.hosseini@yahoo.com",
-      avatar: null,
-      initials: "م.ح",
-    },
-    date: "۱۴۰۲/۰۸/۱۰",
-    time: "۰۹:۲۰",
-    amount: "۱,۲۰۰,۰۰۰",
-    gateway: "سامان کیش",
-    gatewayIcon: "credit_card",
-    status: "موفق",
-  },
-  // ... add more data
-];
-
-// components/Payments/StatusBadge.jsx
-
 function StatusBadge({ status }) {
   let classes = "";
   let dotClass = "";
@@ -98,8 +32,7 @@ function StatusBadge({ status }) {
 
 function PaymentTableRow({ payment }) {
   const { id, user, date, createdAt: time } = payment;
-  const { price: amount } = payment.product[0];
-
+  const price = payment.product.reduce((a, c) => (a += c.price), 0);
   return (
     <tr className="hover:bg-[#222e25] transition-colors group">
       <td className="p-4">
@@ -137,7 +70,7 @@ function PaymentTableRow({ payment }) {
       </td>
       <td className="p-4">
         <span className="text-white text-sm font-bold" dir="ltr">
-          {amount}{" "}
+          {price.toLocaleString()} {" "}
           <span className="text-[#9db8a6] text-xs font-normal" dir="rtl">
             تومان
           </span>
@@ -165,9 +98,14 @@ function PaymentTableRow({ payment }) {
   );
 }
 
-// components/Payments/PaymentTable.jsx
-
 export default function PaymentTable({ data }) {
+  if (!data?.length) {
+    return (
+      <div className="flex justify-center pt-3">
+        <span>سفارشی در سایت ثبت نشد است</span>
+      </div>
+    );
+  }
   return (
     <div className="rounded-xl border border-[#29382e] overflow-hidden bg-[#1c261f] shadow-xl">
       {/* Table Area */}

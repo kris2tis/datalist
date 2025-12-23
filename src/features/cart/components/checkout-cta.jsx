@@ -11,16 +11,15 @@ export default function CheckoutCTA({ data }) {
     id: userId,
     cart: { id: cartId },
   } = data;
-
   const paymentHandler = async () => {
     const body = {
       userId: userId,
       cartId: cartId,
-      productId: data.cart.productItems[0].productId,
+      productsId: data.cart.productItems.map((p) => p.productId),
     };
     try {
       const { message } = await http
-        .post("/payment", body)
+        .post("/user/payment", body)
         .then(({ data }) => data);
       toast.success(message);
       refresh();

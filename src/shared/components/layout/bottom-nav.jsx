@@ -39,7 +39,7 @@ const bottomNavigation = [
 
 const BottomNav = () => {
   return (
-    <nav className="fixed bottom-0 w-full bg-background-dark border-t border-gray-200 dark:border-gray-800 pb-safe pt-2 z-50">
+    <nav className="lg:hidden fixed bottom-0 w-full bg-background-dark border-t border-gray-200 dark:border-gray-800 pb-safe pt-2 z-50">
       <div className="flex justify-around items-center h-14">
         {bottomNavigation.map((n, index) => (
           <NavItem key={index} {...n} />

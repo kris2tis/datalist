@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { http } from "../../../httpServices";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const StockBadge = ({ stock }) => {
   let classes = "w-2 h-2 rounded-full";
@@ -14,7 +15,7 @@ const StockBadge = ({ stock }) => {
     classes += " bg-yellow-500";
   } else {
     classes += " bg-red-500";
-    text = "Out of Stock"; // یا 0
+    text = "Out of Stock";
   }
 
   return (
@@ -59,20 +60,10 @@ function ProductTableRow({
     category,
     quantity: stock,
     price,
-    status,
     imagePath,
   } = product;
-
   return (
     <tr className="group hover:bg-[#223328] transition-colors">
-      <td className="p-4">
-        <input
-          type="checkbox"
-          checked={isChecked}
-          onChange={onToggleCheck}
-          className="rounded border-[#3a4d40] bg-[#112116] text-primary focus:ring-primary focus:ring-offset-0"
-        />
-      </td>
       <td className="p-4">
         <div className="flex items-center gap-3">
           <div
@@ -80,15 +71,17 @@ function ProductTableRow({
             style={{ backgroundImage: `url('${imagePath}')` }}
           ></div>
           <div className="flex flex-col">
-            <span className="font-medium text-white">{title}</span>
-            <span className="text-xs text-text-muted truncate max-w-[150px]">
-              {description}
+            <span className="font-medium text-white">
+              {title.slice(0, 6)} ...
             </span>
           </div>
         </div>
       </td>
+
       <td className="p-4 text-sm text-white font-mono">{sku}</td>
-      <td className="p-4 text-sm text-text-muted">{category.title}</td>
+      <td className="p-4 text-sm text-text-muted">
+        {category?.title ? category.title.slice(0, 10) : "انتخاب نشده"}
+      </td>
       <td className="p-4">
         <StockBadge stock={stock} />
       </td>
@@ -101,10 +94,17 @@ function ProductTableRow({
       <td className="p-4 text-end">
         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <button
-            onClick={onDelete}
+            onClick={() => onDelete(sku)}
             className="p-1.5 rounded-lg text-text-muted hover:text-red-400 hover:bg-[#34463a] transition-colors"
           >
-            <span className="material-symbols-outlined text-[18px]">حذف</span>
+            <span className="material-symbols-outlined text-[12px]">حذف</span>
+          </button>
+          <button className="p-1.5 rounded-lg text-text-muted hover:text-white hover:bg-[#d7d8d731] transition-colors">
+            <Link href={`/admin/product/edit/${sku}`}>
+              <span className="material-symbols-outlined text-[12px]">
+                ویرایش
+              </span>
+            </Link>
           </button>
         </div>
       </td>
@@ -113,40 +113,35 @@ function ProductTableRow({
 }
 
 export function ProductTable({ data }) {
-  console.log("dfgdfg", data);
   const { refresh } = useRouter();
-  const handleSelectAll = (e) => {};
-  const handleToggleCheck = (id) => {};
-  const handleEdit = (id) => console.log(`Editing product ${id}`);
+  // const handleSelectAll = (e) => {};
+  // const handleToggleCheck = (id) => {};
   const handleDelete = async (id) => {
     try {
       const { message } = await http
-        .post("/admin/product", { productId: id })
+        .post("/admin/product/delete", { productId: id })
         .then(({ data }) => data);
 
       toast.success(message);
       refresh();
     } catch (error) {
-      const errorMessage = error?.response?.data || "خطا";
+      const errorMessage = error?.response?.data?.message || "خطا";
       toast.error(errorMessage);
       refresh();
     }
   };
 
+  if (!data?.length) {
+    return (
+      <span className="text-center mt-5">محصولی در فروشگاه وجود ندارد!</span>
+    );
+  }
   return (
     <div className="rounded-xl border border-[#29382e] bg-surface-dark overflow-hidden flex flex-col shadow-xl">
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-input-bg border-b border-[#29382e]">
-              <th className="p-4 w-12">
-                <input
-                  type="checkbox"
-                  onChange={handleSelectAll}
-                  className="rounded border-[#3a4d40] bg-[#112116] text-primary focus:ring-primary focus:ring-offset-0"
-                />
-              </th>
-
               <th className="p-4 text-xs text-right font-bold uppercase tracking-wider text-text-muted">
                 محصول
               </th>
@@ -172,7 +167,6 @@ export function ProductTable({ data }) {
           </thead>
           <tbody className="divide-y divide-[#29382e]">
             {data.map((product) => {
-              console.log(product);
               return (
                 <ProductTableRow
                   key={product.id}

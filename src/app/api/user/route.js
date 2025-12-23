@@ -1,5 +1,21 @@
-import * as zod from "zod";
+import { headers } from "next/headers";
 import prisma from "../../../../lib/prisma";
+import * as zod from "zod";
+import { auth } from "../../../../lib/auth";
+export async function GET() {
+  const {
+    user: { id },
+  } = await auth.api.getSession({ headers: await headers() });
+
+  const user = await prisma.user.findUnique({
+    where: { id: id },
+    include: { bookmarks: true, cart: true },
+  });
+  return Response.json(
+    { user: user, message: "اطلاعات کاربر" },
+    { status: 200 }
+  );
+}
 
 const updateProfileSchema = zod.object({
   name: zod
@@ -7,23 +23,6 @@ const updateProfileSchema = zod.object({
     .min(5, "نام نمیتواند کمتر از 5 کاراکتر باشد"),
   email: zod.email("ایمیل معتبر نیست"),
 });
-
-export async function GET(req) {
-  const userId = JSON.parse(req.headers.get("userId"));
-  if (!userId) throw new Error("کاربری یافت نشد");
-
-  const user = await prisma.user.findUnique({
-    where: { id: parseInt(userId) },
-    include: {
-      cart: true,
-    },
-  });
-
-  return Response.json(
-    { message: "اطلاعات کاربر", user: user },
-    { status: 200 }
-  );
-}
 
 export async function PUT(req) {
   const body = await req.json();

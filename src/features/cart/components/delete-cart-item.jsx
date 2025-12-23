@@ -10,16 +10,17 @@ export default function DeleteCartItem({ data }) {
   const { refresh } = useRouter();
   const deleteCartItemFromCart = async () => {
     const data = { productId: productId, cartId: cartId };
-
+   
     try {
       const { message } = await http
-        .post("/cart/delete", data)
+        .post("/user/cart/delete", data)
         .then(({ data }) => data);
 
       toast.success(message);
       refresh();
     } catch (error) {
       const errorMessage = error?.response?.data?.message;
+      console.log(error)
       toast.error(errorMessage);
     }
   };

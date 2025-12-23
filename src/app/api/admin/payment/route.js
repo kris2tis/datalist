@@ -7,7 +7,7 @@ export async function GET() {
 
   return Response.json(
     {
-      message: "لیست پرداختی ها",
+      message: "لیست سفارشات",
       paymentList: paymentsList,
     },
     { status: 200 }

@@ -9,14 +9,14 @@ const ProductCard = ({ product, user }) => {
   const { id: productId, title, description, price, image } = product;
 
   const cartId = user?.cart?.id;
+
   const addToCart = async () => {
     try {
       const { message } = await http
-        .post("/cart", { productId, cartId })
+        .post("/user/cart", { productId: productId })
         .then(({ data }) => data);
       toast.success(message);
     } catch (error) {
-      console.log(error?.response);
       toast.error(error?.response?.data?.message);
     }
   };
@@ -63,7 +63,7 @@ const ProductCard = ({ product, user }) => {
             </div>
             <button
               onClick={() => {
-                if (!cartId) return alert("ابتدا باید وارد سایت شوید");
+                if (!cartId) return toast.warning("ابتدا باید وارد سایت شوید");
                 addToCart();
               }}
               className={
