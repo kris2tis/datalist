@@ -10,7 +10,6 @@ export default async function Sidebar() {
     <aside className=" hidden lg:flex w-64 flex-col border-l border-[#29382e] bg-[#111813] dark:bg-background-dark h-full  md:flex shrink-0">
       <div className="flex h-full flex-col justify-between p-4">
         <div className="flex flex-col gap-6">
-          {/* Brand / User Info */}
           <div className="flex gap-3 items-center px-2">
             <div
               className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 border-2 border-[#29382e]"
@@ -24,7 +23,7 @@ export default async function Sidebar() {
                 {name}
               </h1>
               <p className="text-[#9db8a6] text-xs font-normal leading-normal">
-                مدیر ارشد فروشگاه
+                مدیر ارشد 
               </p>
             </div>
           </div>
