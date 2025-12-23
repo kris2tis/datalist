@@ -44,28 +44,15 @@ export default function layout({ children }) {
             </Link>
           </nav>
           <div class="flex items-center gap-4">
-            <Link href={"/profile"} class="hidden items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/20 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 md:flex">
+            <Link
+              href={"/profile"}
+              class="hidden items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-1.5 text-sm font-medium text-gray-700 shadow-sm transition-all hover:bg-gray-50 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary/20 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 md:flex"
+            >
               <div className="relative h-4 aspect-square">
                 <Image src={"/icons/profile.svg"} fill alt="logo icon" />
               </div>
-              <span>پروفایل</span>
+              <span>پروفایل </span>
             </Link>
-
-            <button
-              aria-controls="mobile-menu"
-              aria-expanded="false"
-              class="group inline-flex items-center justify-center rounded-lg p-2 text-gray-700 transition-colors hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary/20 dark:text-gray-200 dark:hover:bg-gray-800 md:hidden"
-              onclick="document.getElementById('mobile-menu').classList.toggle('open')"
-              type="button"
-            >
-              <span class="sr-only">باز کردن منو</span>
-              <span class="material-symbols-outlined text-2xl group-aria-expanded:hidden">
-                menu
-              </span>
-              <span class="material-symbols-outlined text-2xl hidden group-aria-expanded:block">
-                close
-              </span>
-            </button>
           </div>
         </div>
         <div
