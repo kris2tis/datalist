@@ -17,7 +17,7 @@ export default function page() {
           <div className="flex flex-col gap-6 @[864px]:w-1/2 @[864px]:pl-8">
             <div className="flex flex-col gap-3 text-right">
               <div className="inline-flex w-fit items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary border border-primary/20">
-                <span>امنیت در سطح بانکی</span>
+                <span>امنیت بالا</span>
               </div>
               <h1 className="text-slate-900 dark:text-white text-4xl font-black leading-[1.3] tracking-[-0.033em] @[480px]:text-5xl">
                 تبدیل داده‌ها به{" "}
