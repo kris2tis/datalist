@@ -2,7 +2,7 @@ import { http } from "../../../httpServices";
 
 export default async function CommentList() {
   const feedback = await http.get("/user/feedback").then(({ data }) => data);
-  const { data } = feedback || [];
+  const data  = feedback?.date || [];
   return (
     <section className="bg-slate-50 dark:bg-slate-800/30 py-12 px-4 border-y border-gray-100 dark:border-gray-700/50">
       <div className="text-center mb-8">
