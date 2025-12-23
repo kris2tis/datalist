@@ -51,7 +51,7 @@ export default function layout({ children }) {
               <div className="relative h-4 aspect-square">
                 <Image src={"/icons/profile.svg"} fill alt="logo icon" />
               </div>
-              <span>پروفایل </span>
+              <span>حساب کاربری</span>
             </Link>
           </div>
         </div>
