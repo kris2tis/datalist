@@ -92,7 +92,7 @@ function ProductTableRow({
         <StatusBadge status={"موفق"} />
       </td>
       <td className="p-4 text-end">
-        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center justify-end gap-2">
           <button
             onClick={() => onDelete(sku)}
             className="p-1.5 rounded-lg text-text-muted hover:text-red-400 hover:bg-[#34463a] transition-colors"
