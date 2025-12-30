@@ -1,19 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #135bec;
-  --light: #f6f6f8;
+  --primary: #ef394e;
+  --light: #ffebee;
+  --surface: #ffffff;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
 }
 
 @theme inline {
-  --color-primary: #135bec;
-  --color-background-light: #f6f6f8;
-  --color-background-dark: #101622;
+  --color-primary: var(--primary);
+  --color-light: var(--light);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
 }
 
 body {
   min-height: max(884px, 100dvh);
   font-family: var(--modam-font);
+  background-color: var(--surface);
+  color: var(--text-main);
 }
 
 @layer base {
