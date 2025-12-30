@@ -2,9 +2,11 @@
 import { useRouter } from "next/navigation";
 import { http } from "../../../httpServices";
 import { toast } from "sonner";
+import Img from "@/shared/components/ui/img";
+import Link from "next/link";
 
 export default function AuthForm({ mode }) {
-  const { refresh , push } = useRouter();
+  const { refresh, push } = useRouter();
   const signUpHandler = async (e) => {
     e.preventDefault();
     const data = {
@@ -12,7 +14,6 @@ export default function AuthForm({ mode }) {
       email: e.target.email.value,
       password: e.target.password.value,
     };
-    console.log(data)
     try {
       const { message } = await http
         .post("/user/auth", data)
@@ -22,7 +23,6 @@ export default function AuthForm({ mode }) {
       push("/");
     } catch (error) {
       toast.error(error?.response?.data?.message || "خطا");
-      console.log(error);
     }
   };
   const signInHandler = async (e) => {
@@ -46,71 +46,123 @@ export default function AuthForm({ mode }) {
     mode === "sign-up" ? signUpHandler(e) : signInHandler(e);
   };
   return (
-    <div className="max-w-[400px] mx-auto">
-      <div class="dark:bg-surface-dark rounded-2xl shadow-xl border border-border-dark overflow-hidden">
-        <div class="pt-8 pb-2 px-8 text-center">
-          <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2">
-            {mode === "sign-up" ? "ثبت نام در سایت" : "ورود به سایت"}
-          </h1>
-        </div>
-        <div class="p-8 pt-6">
-          <form onSubmit={handleFormSubmit} class="flex flex-col gap-5">
+    <div class="mx-auto my-2 w-full max-w-[1200px] h-screen lg:h-[800px] bg-white  lg:rounded-3xl overflow-hidden flex flex-col lg:flex-row-reverse shadow-none border border-neutral-100 ">
+      <div class="w-full lg:w-1/2 flex flex-col justify-center relative bg-white  order-2 h-full overflow-y-auto no-scrollbar">
+        <div class="flex flex-col w-full max-w-md mx-auto p-8 animate-fade-in">
+          <div class="mb-10 text-center lg:text-left">
+            <h1 class="text-4xl font-bold text-primary mb-3">خوشحالم برگشتی</h1>
+            <p class="text-neutral-500 text-sm">
+              ایمیل و رمز عبور را وارد کنید
+            </p>
+          </div>
+          <form onSubmit={handleFormSubmit} class="space-y-5">
             {mode === "sign-up" && (
-              <div class="space-y-2">
-                <label
-                  class="text-sm font-medium  text-white flex items-center gap-2"
-                  for="name"
-                >
-                  نام
+              <div class="space-y-1.5">
+                <label class="text-xs font-bold text-neutral-800 " for="email">
+                  نام و نام خانوادگی
                 </label>
                 <input
-                  class="w-full h-12 px-4 rounded-lg  -[#111813] border  border-[#3c5344] text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
-                  id="name"
+                  class="w-full px-4 py-3 rounded-lg bg-neutral-100  border-none focus:ring-1 focus:ring-primary outline-none transition-all text-neutral-800  placeholder-neutral-400 text-sm"
                   name="name"
-                  placeholder="مهدی رضایی"
+                  type="نام"
                 />
               </div>
             )}
-
-            <div class="space-y-2">
-              <label
-                class="text-sm font-medium  text-white flex items-center gap-2"
-                for="email"
-              >
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-neutral-800 " for="email">
                 ایمیل
               </label>
               <input
-                class="w-full h-12 px-4 rounded-lg  -[#111813] border  border-[#3c5344] text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
+                class="w-full px-4 py-3 rounded-lg bg-neutral-100  border-none focus:ring-1 focus:ring-primary outline-none transition-all text-neutral-800  placeholder-neutral-400 text-sm"
                 id="email"
-                name="email"
-                placeholder="mhdr@gmail.com"
                 type="email"
               />
             </div>
-            <div class="space-y-2">
-              <div class="flex items-center justify-between">
-                <label
-                  class="text-sm font-medium text-white flex items-center gap-2"
-                  for="password"
-                >
-                  رمز عبور
-                </label>
-              </div>
-              <div class="relative">
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold text-neutral-800 " for="password">
+                رمز عبور
+              </label>
+              <div>
                 <input
-                  class="w-full h-12 px-4  rounded-lg bg-[#111813] border border-gray-300 dark:border-[#3c5344] text-slate-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
+                  class="w-full px-4 py-3 rounded-lg bg-neutral-100  border-none focus:ring-1 focus:ring-primary outline-none transition-all text-neutral-800  placeholder-neutral-400 text-sm"
                   id="password"
-                  name="password"
-                  placeholder="••••••••"
-                  type="password"
                 />
               </div>
             </div>
-            <button class="mt-2 w-full h-12 bg-primary hover:bg-primary/90 text-[#0a2e16] font-bold rounded-lg transition-all duration-200  hover:-translate-y-0.5 active:translate-y-0 text-base">
-              {mode === "sign-up" ? "ثبت نام " : "ورود "}
+            <div class="flex items-center justify-between py-2">
+              {/* Forget Password */}
+              {/* <label class="flex items-center gap-2 cursor-pointer group">
+                <div class="relative flex items-center">
+                  <input
+                    class="peer h-4 w-4 cursor-pointer appearance-none rounded border border-neutral-300 transition-all checked:border-primary checked:bg-primary"
+                    type="checkbox"
+                  />
+                  <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100 pointer-events-none">
+                    <svg
+                      class="h-3 w-3"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5 13l4 4L19 7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                  </span>
+                </div>
+                <span class="text-xs font-medium text-neutral-500 group-hover:text-neutral-700 ">
+                  یادت بمونه
+                </span>
+              </label> */}
+              {/* <a
+                class="text-xs font-bold text-neutral-600 hover:text-primary transition-colors"
+                href="#"
+              >
+                فراموشی رمز؟
+              </a> */}
+            </div>
+            <button
+              class="w-full bg-primary cursor-pointer  text-white font-bold py-3 rounded-lg transition-all active:scale-[0.98] shadow-none mt-2"
+              type="submit"
+            >
+              ورود
             </button>
+            {/* Sign in or Signup with Goggle */}
+            {/* <button
+              class="w-full bg-white hover:bg-neutral-50  border border-neutral-200 text-neutral-700  font-bold py-3 rounded-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-3 shadow-none group"
+              type="button"
+            >
+              <img
+                alt="Google Logo"
+                class="w-5 h-5"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7p2amOhFxcmnimZA5s2JumSD55ChZ4RlDpp1xTR1HSg1W0j-Ukm5Du9G-qGmfbLfDCXohdvg3A0g4hwnH0J0UOiInxk2gbWdfiNLhyGt7YdoAGeAZWnbZ6qB3CCcdVZWq91EvDJ5cajMZkBItOy4Fvq3YLi5tOazwLXgM7q6ZB61HcNoKBxf1hMW1KLFEfPNwWKHmOHNdMU3OSwK32Ov0lfVamvjpo88CuGxbqQYGQ-Oxgg4kiQNu_AjFeEupwVa5BgnwgvWRESbz"
+              />
+              <span class="text-sm">Sign In with Google</span>
+            </button> */}
           </form>
+          <div class="mt-12 text-center text-xs text-neutral-500">
+            {mode === "sign-up" ? "حسابی دارید ؟" : "حساب ندارید?"}
+            <Link href={mode ==="sign-up" ? "/sign-in" : "sign-up"}>
+              <label
+                class="text-primary font-bold cursor-pointer hover:underline mr-1"
+                for="tab-register"
+              >
+                {mode === "sign-up" ? "واردشوید" : "ثبت نام کنید"}
+              </label>
+            </Link>
+          </div>
         </div>
+      </div>
+      <div class="hidden lg:block lg:w-1/2 relative bg-neutral-100  overflow-hidden h-full order-1">
+        <Img
+          alt="Shopping Experience"
+          className="inset-0 w-full h-full object-cover"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMW5cxuaiq4pQBobsY4Oo7Ez2ODSjXlE1GAY_G8xoAJiqlMnz1meL9FQ7r4nr9SFwebd4m7UV5-IXqT-UVnXvI8VCLJde6pgkqB29XxCAbOSF4eJoRn_mEypL9l0wAdUXai8b02YLVdfkETL-rpx5p9qQtOq4VQRcVz27aKzNkq1HWEyzOec2SNo8VHVESXDmqlLeFun68wGze1aFrdKa_1bhN9vehMwuZabn0WaAInNGRKID_b923QnCn57VarsrlNlTSg2Xva97u"
+        />
       </div>
     </div>
   );
