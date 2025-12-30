@@ -6,11 +6,10 @@ export default function ProductList({ data, user }) {
     return <span>محصولی وجود ندارد</span>;
   }
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 px-4 pb-24 pt-2  gap-4 z-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {data.map((p) => (
         <ProductCard key={p.id} product={p} user={user} />
       ))}
     </div>
   );
 }
-

@@ -1,71 +1,18 @@
 "use client";
 
-// import PriceRange from "../../../shared/components/ui/price-range";
-import { useDropdown } from "../../../shared/stores/dropdown-store";
-import Image from "next/image";
+import Img from "../../../shared/components/ui/img";
+import { ArrowIcon } from "../../../shared/assets/icons/icons";
+import DropDown from "../../../shared/components/ui/drop-down";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-
-const categoryList = [
-  { id: 1, title: "تیشرت" },
-  { id: 2, title: "پیراهن" },
-  { id: 3, title: "شلوار" },
-];
-
-const sortsList = [
-  { id: 1, title: "قدیمی", englishTitle: "asc" },
-  { id: 2, title: "جدید", englishTitle: "desc" },
-];
-const ArrowDownIcon = ({ className }) => {
-  return (
-    <div className={`relative h-5 aspect-square ${className}`}>
-      <Image src={"/icons/plus.svg"} fill alt="short arrow down icon" />
-    </div>
-  );
-};
+import { useCategories } from "../../../shared/hooks/useQuery";
+import { useQueryParams } from "../../../shared/stores/queryParamsStore";
 
 const DeleteFilter = ({ label, onClick }) => {
   return (
-    <button
-      onClick={onClick}
-      className={`bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-[#111318] dark:text-gray-200 shadow-sm relative flex shrink-0 items-center justify-center gap-x-2 rounded-full px-4 py-2 active:scale-95 transition-all `}
-    >
-      <span className="text-sm font-medium whitespace-nowrap">{label}</span>
-    </button>
-  );
-};
-export const FilterButton = ({ label, children }) => {
-  const [isActive, setIsActive] = useState(false);
-  const { setData, toggle } = useDropdown();
-  const activeClasses = isActive
-    ? "bg-primary/10 border border-primary/20 text-primary"
-    : "bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 text-[#111318] dark:text-gray-200 shadow-sm";
-  const iconColor = isActive ? "text-primary" : "text-gray-500";
-
-  return (
-    <button
-      className={`relative flex shrink-0 items-center justify-center gap-x-2 rounded-full px-4 py-2 active:scale-95 transition-all ${activeClasses}`}
-    >
-      <span
-        onClick={() => {
-          setIsActive((prev) => !prev);
-          setData(children);
-          toggle();
-        }}
-        className="text-sm font-medium whitespace-nowrap"
-      >
+    <button onClick={onClick} className="cursor-pointer">
+      <span className="text-sm font-medium whitespace-nowrap text-primary">
         {label}
-      </span>
-      <span
-        className={`material-symbols-outlined ${iconColor}`}
-        style={{ fontSize: "18px" }}
-      >
-        {isActive ? (
-          <ArrowDownIcon className={"rotate-45"} />
-        ) : (
-          <ArrowDownIcon />
-        )}
       </span>
     </button>
   );
@@ -75,33 +22,8 @@ const FilterBar = () => {
   const searchParams = useSearchParams();
   const { push } = useRouter();
   const pathname = usePathname();
-
-  const setQueryParams = (name, value) => {
-    const params = new URLSearchParams(searchParams);
-
-    const splitQueryName = name.split("/");
-    const IsItTwoParam = splitQueryName.length > 1;
-
-    if (!IsItTwoParam) {
-      params.set(name, value);
-      setQueryToUrl(params);
-    } else {
-      const [min, max] = value;
-      params.set("gte", min);
-      params.set("lte", max);
-
-      setQueryToUrl(params);
-    }
-  };
-
-  const clearQueryParmas = () => {
-    const params = new URLSearchParams(searchParams);
-
-    for (const [key, value] of searchParams) {
-      params.delete(key);
-    }
-    setQueryToUrl(params);
-  };
+  const { categories } = useCategories();
+  const { setQueryParams, clearQueryParams } = useQueryParams();
 
   const setQueryToUrl = (params) => {
     if (params) {
@@ -113,62 +35,188 @@ const FilterBar = () => {
   const isThereQuery = key ? true : false;
 
   return (
-    <div className="pb-2 pt-2 transition-colors duration-300">
-      <div className="flex gap-3 px-4 overflow-x-auto no-scrollbar py-2">
-        {isThereQuery && (
-          <DeleteFilter
-            onClick={clearQueryParmas}
-            label={"پاک کردن فیلتر ها"}
-          ></DeleteFilter>
-        )}
+    <aside class="w-full lg:w-80 shrink-0 space-y-6 lg:sticky lg:top-24 z-10  lg:block">
+      <div class="bg-white rounded-2xl border border-neutral-200 shadow-card overflow-hidden">
+        <div class="p-5 border-b border-neutral-100 flex items-center justify-between bg-neutral-50/50">
+          <h3 class="font-bold text-lg flex items-center gap-2">
+            <Img
+              src={"/icons/filter.svg"}
+              alt={"filter icon"}
+              className={"h-5 aspect-square"}
+            />
+            فیلترها
+          </h3>
+          {isThereQuery && (
+            <DeleteFilter
+              label={"حذف فیلترها"}
+              onClick={() => {
+                const params = clearQueryParams(searchParams);
+                setQueryToUrl(params);
+              }}
+            />
+          )}
+        </div>
+        <div class="divide-y divide-neutral-100">
+          <DropDown title={"دسته بندی"}>
+            {!categories?.length ? (
+              <span>دسته بندی وجود ندارد</span>
+            ) : (
+              <ul class="space-y-2 text-sm">
+                {categories.map((c) => {
+                  return (
+                    <li
+                      onClick={() => {
+                        const params = setQueryParams(
+                          searchParams,
+                          "category",
+                          c.title
+                        );
+                        setQueryToUrl(params);
+                      }}
+                      key={c.id}
+                      className="flex items-center justify-between cursor-pointer"
+                    >
+                      <span>{c.title}</span>
+                      <div className="rotate-180">
+                        <ArrowIcon className="w" />
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </DropDown>
 
-        <FilterButton label={"دسته بندی براساس"}>
-          <div className="w-full  border-b border-b-gray-500 py-1">
-            <span className="text-[14px] text-gray-300 font-bold w-full">
-              دسته بندی
-            </span>
-          </div>
-          <div className="flex flex-col gap-y-2 py-3">
-            {categoryList.map((c, index) => (
-              <span
-                onClick={() => setQueryParams("category", c.title)}
-                className="text-[14px]"
-                key={index}
-              >
-                {c.title}
+          {/* Brands Filter */}
+          {/* <div class="p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h4 class="font-bold text-sm">برند سازنده</h4>
+            </div>
+            <div class="relative mb-3">
+              <input
+                class="w-full text-xs bg-neutral-100 border-none rounded-lg py-2 pr-8 pl-3 focus:ring-1 focus:ring-primary placeholder-text-light/70"
+                placeholder="جستجوی برند..."
+                type="text"
+              />
+              <span class="material-symbols-outlined absolute right-2 top-2 text-base text-text-light">
+                search
               </span>
-            ))}
-          </div>
-        </FilterButton>
-        <FilterButton label={"مرتب سازی براساس تاریخ"}>
-          <div className="w-full  border-b border-b-gray-500 py-1">
-            <span className="text-[14px] text-gray-300 font-bold w-full">
-              زمان
-            </span>
-          </div>
-          <div className="flex flex-col gap-y-2 py-3">
-            {sortsList.map((c, index) => (
-              <span
-                onClick={() => setQueryParams("sort", c.englishTitle)}
-                className="text-[14px]"
-                key={index}
-              >
-                {c.title}
+            </div>
+            <div class="space-y-2.5 max-h-40 overflow-y-auto custom-scrollbar">
+              <label class="flex items-center gap-3 cursor-pointer group hover:bg-neutral-50 p-1.5 rounded-lg transition-colors">
+                <div class="relative flex items-center">
+                  <input
+                    class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-neutral-300 transition-all checked:border-primary checked:bg-primary"
+                    type="checkbox"
+                  />
+                  <span class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100">
+                    <svg
+                      class="h-3.5 w-3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M5 13l4 4L19 7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                  </span>
+                </div>
+                <div class="flex justify-between w-full text-sm">
+                  <span class="font-medium text-text-main group-hover:text-primary transition-colors">
+                    سامسونگ
+                  </span>
+                  <span class="text-text-light text-xs font-sans">Samsung</span>
+                </div>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer group hover:bg-neutral-50 p-1.5 rounded-lg transition-colors">
+                <div class="relative flex items-center">
+                  <input
+                    class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-neutral-300 transition-all checked:border-primary checked:bg-primary"
+                    type="checkbox"
+                  />
+                  <span class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100">
+                    <svg
+                      class="h-3.5 w-3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M5 13l4 4L19 7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                  </span>
+                </div>
+                <div class="flex justify-between w-full text-sm">
+                  <span class="font-medium text-text-main group-hover:text-primary transition-colors">
+                    اپل
+                  </span>
+                  <span class="text-text-light text-xs font-sans">Apple</span>
+                </div>
+              </label>
+              <label class="flex items-center gap-3 cursor-pointer group hover:bg-neutral-50 p-1.5 rounded-lg transition-colors">
+                <div class="relative flex items-center">
+                  <input
+                    class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-neutral-300 transition-all checked:border-primary checked:bg-primary"
+                    type="checkbox"
+                  />
+                  <span class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100">
+                    <svg
+                      class="h-3.5 w-3.5"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M5 13l4 4L19 7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                  </span>
+                </div>
+                <div class="flex justify-between w-full text-sm">
+                  <span class="font-medium text-text-main group-hover:text-primary transition-colors">
+                    شیائومی
+                  </span>
+                  <span class="text-text-light text-xs font-sans">Xiaomi</span>
+                </div>
+              </label>
+            </div>
+          </div> */}
+          <div class="p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-medium text-text-main">
+                فقط کالاهای موجود
               </span>
-            ))}
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input class="sr-only peer" type="checkbox" value="" />
+                <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none rounded-full peer peer-checked:after:-translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary shadow-inner"></div>
+              </label>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-medium text-text-main">ارسال فوری</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input class="sr-only peer" type="checkbox" value="" />
+                <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none rounded-full peer peer-checked:after:-translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary shadow-inner"></div>
+              </label>
+            </div>
           </div>
-        </FilterButton>
-        {/* <FilterButton label={"مرتب سازی براساس قیمت"}>
-          <PriceRange
-            onChange={(val) => {
-              const [min, max] = val;
-              setQueryParams("gte/lte", [min, max]);
-            }}
-          />
-        </FilterButton> */}
+        </div>
       </div>
-    </div>
+    </aside>
   );
 };
 
 export default FilterBar;
+
+;
+ 
