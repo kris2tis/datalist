@@ -1,11 +1,10 @@
-import { cookies, headers } from "next/headers";
-import prisma from "../../../../../lib/prisma";
+import { headers } from "next/headers";
 import { auth } from "../../../../../lib/auth";
+import prisma from "../../../../../lib/prisma";
 // دریافت سبد کاربر
 export async function GET() {
   const session = await auth.api.getSession({ headers: await headers() });
   const userId = session?.user?.id || null;
-
   if (!userId)
     return Response.json(
       { message: "کاربر احراز هویت نشده است" },
@@ -53,7 +52,6 @@ export async function POST(req) {
   const { user } =
     (await auth.api.getSession({ headers: await headers() })) || {};
   const { id: cartId } = user.cart || {};
-
   if (!productId) return new Error("محصول وجود ندارد");
   if (!cartId) return new Error("سبد وجود ندارد");
 
