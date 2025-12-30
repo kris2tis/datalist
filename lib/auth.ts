@@ -10,8 +10,13 @@ export const auth = betterAuth({
     customSession(async ({ user, session }) => {
       const userData = await prisma.user.findUnique({
         where: { id: session.userId },
-        include: { cart: true },
+        include: {
+          cart: {
+            include: {_count: { select: { productItems: true } } },
+          },
+        },
       });
+
       return {
         user: {
           ...user,
