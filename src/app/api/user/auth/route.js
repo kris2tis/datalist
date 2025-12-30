@@ -1,11 +1,12 @@
 import prisma from "../../../../../lib/prisma";
 import { auth } from "../../../../../lib/auth";
+
 const errors = {
   422: { message: "کاربری با این ایمیل وجود دارد 🚩", status: 422 },
 };
+
 export async function POST(req) {
   const body = await req.json();
-  console.log("__________________", body);
   if (!body?.email || !body?.password || !body?.name)
     return Response.json(
       { message: "اطلاعات فرستاده شده کامل نیست" },
@@ -31,7 +32,7 @@ export async function POST(req) {
     });
 
     return Response.json(
-      { message: "ثبت‌نام و ایجاد سبد خرید موفقیت‌آمیز بود" },
+      { message: "با موفقیت ثبت نام شدید" },
       {
         status: 200,
         headers: {
