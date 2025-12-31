@@ -105,3 +105,15 @@ export async function POST(req) {
     }
   }
 }
+
+export async function DELETE() {
+  const { user } = await auth.api.getSession({ headers: await headers() });
+
+  await prisma.cartItem.deleteMany({ where: { cartId: user.cart.id } });
+  return Response.json(
+    { message: "محصولات با موفقیت از سبد حذف شدند" },
+    {
+      status: 200,
+    }
+  );
+}
