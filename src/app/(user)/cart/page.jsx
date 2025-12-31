@@ -1,19 +1,16 @@
 import { http } from "../../../httpServices";
-import {
-  CartItemCard,
-} from "../../../features/cart/components/cart-card";
+
+import { CartItemCard } from "../../../features/cart/components/cart-card";
 import { TopBar } from "../../../features/cart/components/top-bar";
-import CouponInput from "../../../features/cart/components/coupon-input";
 import OrderSummary from "../../../features/cart/components/order-summary";
-import TrustIndicators from "../../../features/cart/components/trust-indicators";
+
 import Link from "next/link";
 import { headers } from "next/headers";
 
 export default async function page() {
-
   const user = await http
     .get(`/user/cart`, {
-      headers:await headers(),
+      headers: await headers(),
       withCredentials: true,
     })
     .then(({ data }) => data.user);
@@ -31,23 +28,19 @@ export default async function page() {
       </div>
     );
   return (
-    <div class="flex flex-col lg:grid-cols-6">
-      <TopBar itemCount="3" />
-      <div className="lg:grid lg:grid-cols-6 gap-x-2 py-2">
-        <div class="lg:col-span-4 flex-1 overflow-y-auto pb-32">
-          <div class="flex flex-col gap-3 py-4">
-            {cartList.map((c) => (
-              <CartItemCard key={c.id} data={c} />
-            ))}
-          </div>
-        </div>
-        <div class="lg:col-span-2">
-          <CouponInput />
+    <div className="grow mx-auto px-4 lg:px-8 max-w-[1440px] py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative">
+        <div className="lg:col-span-8 space-y-4">
+          <TopBar itemCount={cartList?.length || 0} />
 
-          <OrderSummary data={user} />
+          {cartList.map((c) => (
+            <CartItemCard key={c.id} data={c} />
+          ))}
         </div>
+        <OrderSummary data={user} />
       </div>
-      <TrustIndicators />
     </div>
   );
 }
+
+

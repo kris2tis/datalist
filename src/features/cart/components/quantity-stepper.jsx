@@ -3,8 +3,9 @@ import { useRouter } from "next/navigation";
 import { http } from "../../../httpServices";
 import Image from "next/image";
 import { toast } from "sonner";
+import Img from "@/shared/components/ui/img";
 
-export default function QuantityStepper({ currentValue, data }) {
+export default function QuantityStepper({ data }) {
   const { productId, cartId } = data;
   const { refresh } = useRouter();
   const addProductFromCart = async () => {
@@ -19,7 +20,7 @@ export default function QuantityStepper({ currentValue, data }) {
       refresh();
     } catch (error) {
       const errorMessage = error?.response?.data?.message;
-      alert(errorMessage);
+      toast.error(errorMessage);
     }
   };
   const removeProductFromCart = async () => {
@@ -39,31 +40,28 @@ export default function QuantityStepper({ currentValue, data }) {
   };
 
   return (
-    <div className="flex items-center bg-gray-50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 rounded-lg p-0.5 h-8">
+    <div className="flex items-center bg-neutral-50  border border-neutral-200  rounded-xl p-1 w-full sm:w-auto justify-between sm:justify-start">
       <button
         onClick={addProductFromCart}
-        className="w-7 h-full flex items-center justify-center text-primary dark:text-blue-400 
-                   hover:bg-white dark:hover:bg-gray-700 rounded-md shadow-sm transition-all active:scale-95"
+        className="w-9 h-9 flex items-center justify-center bg-white rounded-lg text-primary shadow-sm hover:bg-neutral-50  transition-colors"
       >
-        <div className="relative h-5 aspect-square">
-          <Image src={"/icons/plus.svg"} alt="logn arrow icon" fill />
-        </div>
+        <Img src={"/icons/plus.svg"} alt={"plus icon"} className={"h-5 aspect-square"} />
       </button>
-      <span
-        className="w-8 text-center text-sm font-semibold bg-transparent border-none 
-                  text-[#111318] dark:text-white p-0 focus:ring-0"
-      >
-        {currentValue}
-      </span>
-
+      <input
+        className="w-10 bg-transparent border-none text-center font-bold text-neutral-800  text-sm focus:ring-0 p-0"
+        readonly=""
+        type="text"
+        defaultValue={data.quantity}
+      />
       <button
         onClick={removeProductFromCart}
-        className="w-7 h-full flex items-center justify-center text-gray-400 dark:text-gray-500 
-                   hover:text-red-500 hover:bg-white dark:hover:bg-gray-700 rounded-md shadow-sm transition-all active:scale-95"
+        className="w-9 h-9 flex items-center justify-center bg-white  rounded-lg text-neutral-400 hover:text-red-500 shadow-sm hover:bg-red-50  transition-colors"
       >
-        <div className="relative h-5 aspect-square">
-          <Image src={"/icons/minus.svg"} alt="logn arrow icon" fill />
-        </div>
+        <Img
+          src={"/icons/minus.svg"}
+          alt={"minus icon"}
+          className={"h-5 aspect-square"}
+        />
       </button>
     </div>
   );

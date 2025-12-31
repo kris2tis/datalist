@@ -1,63 +1,107 @@
 import Image from "next/image";
 import React from "react";
 import CheckoutCTA from "./checkout-cta";
+import Img from "@/shared/components/ui/img";
 
 export default function OrderSummary({ data }) {
   const { Count, productItems: itemCount } = data.cart;
   const total = Count.toLocaleString();
 
   return (
-    <div
-      class="mt-6 px-3 py-5 bg-white dark:bg-[#151c2b] rounded-2xl border border-gray-100 
-            dark:border-gray-800 shadow-sm"
-    >
-      <h4 class="text-sm font-bold text-[#111318] dark:text-white mb-4 flex items-center gap-2">
-        <div className="relative h-5 aspect-square">
-          <Image src={"/icons/paper.svg"} alt="logn arrow icon" fill />
-        </div>
-        جزئیات پرداخت
-      </h4>
-
-      <div class="space-y-3">
-        <div class="flex justify-between items-center">
-          <p class="text-gray-500 dark:text-gray-400 text-sm">
-            مجموع اقلام {itemCount?.length || 0}
-          </p>
-          <p class="text-[#111318] dark:text-white text-sm font-medium">
-            <span class="text-xs font-normal text-gray-400">{total}تومان</span>
-          </p>
-        </div>
-
-        <div class="flex justify-between items-center">
-          <p class="text-gray-500 dark:text-gray-400 text-sm">تخفیف</p>
-          <p class="text-emerald-600 dark:text-emerald-400 text-sm font-medium">
-            <span class="text-xs font-normal opacity-80">0 تومان</span>
-          </p>
-        </div>
-
-        <div class="flex justify-between items-center pb-3 border-b border-dashed border-gray-200 dark:border-gray-700">
-          <p class="text-gray-500 dark:text-gray-400 text-sm flex items-center gap-1">
-            مالیات بر ارزش افزوده
-          </p>
-          <p class="text-[#111318] dark:text-white text-sm font-medium">
-            {/* {tax || 0}{" "} */}
-            <span class="text-xs font-normal text-gray-400">0 تومان</span>
-          </p>
-        </div>
-
-        <div class="flex justify-between items-center pt-1">
-          <p class="text-[#111318] dark:text-white font-bold">
-            مبلغ قابل پرداخت
-          </p>
-          <p class="text-primary dark:text-blue-400 font-extrabold text-lg">
-            {total}{" "}
-            <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">
-              تومان
-            </span>
-          </p>
+    <>
+      <div className="lg:col-span-4">
+        <div className="sticky top-28 space-y-4">
+          <div className="bg-white  rounded-3xl border border-neutral-100 overflow-hidden shadow-soft p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="font-black text-neutral-800  text-lg">
+                خلاصه سفارش
+              </h2>
+            </div>
+            <div className="space-y-4 mb-6">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-neutral-500">
+                  قیمت کالاها ({itemCount.length})
+                </span>
+                <span className="font-bold text-neutral-800">
+                  {Count.toLocaleString()}
+                  <span className="text-xs font-normal text-neutral-400">
+                    تومان
+                  </span>
+                </span>
+              </div>
+              {/* <div className="flex items-center justify-between text-sm">
+                <span className="text-neutral-500">سود شما از خرید</span>
+                <span className="font-bold text-primary">
+                  (۳٪) ۱,۳۷۱,۰۰۰{" "}
+                  <span className="text-xs font-normal text-neutral-400">
+                    تومان
+                  </span>
+                </span>
+              </div> */}
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-neutral-500 ">هزینه ارسال</span>
+                <span className="font-bold text-neutral-800 ">رایگان</span>
+              </div>
+            </div>
+            <hr className="border-dashed border-neutral-200  mb-6" />
+            <div className="flex items-center justify-between mb-8">
+              <span className="font-black text-neutral-800 ">جمع سبد خرید</span>
+              <div className="flex flex-col items-end">
+                <div className="flex items-center gap-1">
+                  <span className="text-2xl font-black text-neutral-900  tracking-tight">
+                    {Count.toLocaleString()}
+                  </span>
+                  <span className="text-xs font-bold text-neutral-500">
+                    تومان
+                  </span>
+                </div>
+              </div>
+            </div>
+            <button className="w-full group relative overflow-hidden bg-primary  text-white rounded-2xl py-4 transition-all shadow-[0_8px_20px_-6px_rgba(239,64,86,0.5)] hover:shadow-[0_12px_25px_-5px_rgba(239,64,86,0.6)] transform hover:-translate-y-1 active:scale-95 active:shadow-none hidden lg:flex items-center justify-center">
+              <div className="relative z-10 flex items-center justify-center gap-2 font-black text-lg">
+                <Img
+                  src={"/icons/addToCart.svg"}
+                  alt={"add to cart Icon"}
+                  className={"h-5 aspect-square"}
+                />
+               <span  className="text-lg">تسویه حساب</span>
+              </div>
+              <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+            </button>
+            <div className="mt-6 bg-neutral-50 p-4 rounded-2xl flex items-start gap-3">
+              <p className="text-xs leading-6 text-neutral-500 text-justify">
+                کالاهای موجود در سبد خرید شما ثبت و رزرو نشده‌اند، برای تکمیل
+                مراحل خرید سفارش خود را ثبت کنید.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-      <CheckoutCTA data={data} />
-    </div>
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-neutral-200 p-4 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] z-50 lg:hidden flex items-center justify-between gap-4">
+        <div className="flex flex-col items-start gap-1">
+          <span className="text-[10px] font-bold text-neutral-400">
+            جمع قابل پرداخت
+          </span>
+          <div className="flex items-center gap-1">
+            <span className="text-xl font-black text-neutral-900  tracking-tight">
+              {Count.toLocaleString()}
+            </span>
+            <span className="text-[10px] font-bold text-neutral-500">
+              تومان
+            </span>
+          </div>
+        </div>
+        <button className="flex-1 group relative overflow-hidden bg-primary  text-white rounded-xl py-3.5 transition-all shadow-md active:scale-95">
+          <div className="relative z-10 flex items-center justify-center gap-2 font-bold text-base">
+            <Img
+              src={"/icons/addToCart.svg"}
+              alt={"add to cart Icon"}
+              className={"h-5 aspect-square"}
+            />
+            تسویه حساب
+          </div>
+        </button>
+      </div>
+    </>
   );
 }

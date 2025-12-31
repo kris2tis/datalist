@@ -1,38 +1,49 @@
-import Image from "next/image";
+"use client";
+
+import { http } from "@/httpServices";
+import Img from "@/shared/components/ui/img";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const TopBar = ({ itemCount }) => {
+  const { refresh } = useRouter();
+  const deleteCartIItems = async () => {
+    try {
+      const { message } = await http
+        .delete("/user/cart/")
+        .then(({ data }) => data);
+
+      toast.success(message);
+      refresh();
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message;
+      toast.error(errorMessage);
+    }
+  };
   return (
-    <header
-      class="flex items-center justify-between px-4 py-3 
-               bg-white/90 dark:bg-[#101622]/90 backdrop-blur-md 
-               border-b border-gray-100 dark:border-gray-800 transition-colors duration-300"
-    >
-      <div class="flex items-center gap-3">
-        <button
-          aria-label="بازگشت"
-          class="group flex items-center justify-center p-2 rounded-full 
-                                           hover:bg-gray-100 dark:hover:bg-gray-800 transition-all 
-                                           text-[#111318] dark:text-white"
-        >
-          <span class="material-symbols-outlined group-hover:-translate-x-0.5 transition-transform">
-            <div className="relative h-5 aspect-square">
-              <Image src={"/icons/long-arrow.svg"} alt="logn arrow icon" fill className="rotate-90" />
-            </div>
+    <div className="lg:col-span-8 space-y-4">
+      <div className="flex items-center justify-between mb-2">
+        <h1 className="text-xl font-black text-neutral-900  flex items-center">
+          سبد خرید شما
+          <span className="text-sm font-medium text-neutral-500 mr-2 bg-neutral-100 px-2 py-0.5 rounded-md">
+            ({itemCount} کالا)
           </span>
-        </button>
-
-        <h1 class="text-lg font-bold leading-tight tracking-tight text-[#111318] dark:text-white">
-          سبد خرید
         </h1>
+        {itemCount > 0 && (
+          <button
+            onClick={deleteCartIItems}
+            className="text-xs sm:text-sm text-red-500 hover:text-red-600 font-bold flex items-center gap-1 transition-colors px-2 py-1 hover:bg-red-50 rounded-lg"
+          >
+            <Img
+              src={"/icons/delete.svg"}
+              alt={"delete icon"}
+              className={"h-5 aspect-square"}
+            />
 
-        <span class="bg-primary/10 text-primary dark:bg-primary/20 dark:text-blue-300 text-xs font-bold px-2 py-1 rounded-full">
-          {itemCount}
-        </span>
+            <span>حذف همه</span>
+          </button>
+        )}
       </div>
-
-      <button class="text-xs font-medium text-gray-500 hover:text-red-500 dark:text-gray-400 dark:hover:text-red-400 transition-colors">
-        حذف همه
-      </button>
-    </header>
+    </div>
   );
 };

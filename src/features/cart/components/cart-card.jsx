@@ -1,44 +1,54 @@
-import Image from "next/image";
 import QuantityStepper from "./quantity-stepper";
-import DeleteCartItem from "./delete-cart-item";
+import Img from "@/shared/components/ui/img";
 
 export const CartItemCard = ({ data }) => {
   const { image, title, content, price } = data.product;
   // const imageName = image.split("/")[3];
   return (
-    <div class="group relative flex gap-3 bg-white dark:bg-[#151c2b] p-3 rounded-2xl border border-gray-100 dark:border-gray-800 hover:border-primary/30 dark:hover:border-primary/30 shadow-sm transition-all">
-      <div class="relative shrink-0 overflow-hidden rounded-xl w-[88px] h-[88px] bg-gray-100 dark:bg-gray-800">
-        <div
-          class="relative w-full h-full bg-center bg-cover transition-transform duration-500 group-hover:scale-110 p-3"
-          data-alt="Abstract blue and purple data visualization chart on a screen"
-        >
-          <span className="text-white text-[10px]">اقا شرمنده عکس نداره</span>
-          {/* <Image src={`/uploads/${imageName}`} alt="logn arrow icon" fill /> */}
-        </div>
+    <div className="bg-white  rounded-3xl p-4 lg:p-6 border border-neutral-100 shadow-soft flex flex-col sm:flex-row gap-4 sm:gap-6 relative group transition-all hover:border-neutral-200 ">
+      <div className="w-full sm:w-32 h-32 shrink-0 bg-neutral-200 rounded-2xl p-2 flex items-center justify-center">
+        <span className="text-xs">با عرض پوزش محصول عکس ندارد</span>
+        {false && (
+          <Img
+            alt="iPhone 13"
+            className="w-full h-full object-contain mix-blend-multiply "
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4c1z0ZVbEAR0T0tYcY1gLouC4NwyFIoLif3tvhXcBI4JLR_yJUHDAGBR4ARvCpElZ9Agci3OnV1fxwOy8g_yl-EDNpkq8Ug6RTyqeILZe1iqq_lY1CaWqQmhRXt5vsd9el2TW5PoFgBDxXgBpOYLSquzuTcCF7R2skQDAYliQFe4cfT7jlz2i1KfM-5CSaOVU--OJIiW65NBwB0EhRJ66kEnNBGlr4HlRtisyvEtJ5YI1C9udLBgb4yM70SYgKxsWL52We5zUz0NE"
+          />
+        )}
       </div>
-
-      <div class="flex flex-1 flex-col justify-between py-0.5">
+      <div className="flex-1 flex flex-col justify-between gap-4">
         <div>
-          <div class="flex justify-between items-start gap-2">
-            <h3 class="text-sm font-bold text-[#111318] dark:text-white leading-tight line-clamp-2">
-              {title}
-            </h3>
-            <DeleteCartItem data={data} />
-          </div>
-          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">
-            {content}
-          </p>
+          <h3 className="font-bold text-neutral-900  text-base sm:text-lg mb-2 leading-snug">
+            {title}
+          </h3>
+          {/* Property */}
+          {/* <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-500 ">
+            <div className="flex items-center gap-1.5 bg-neutral-100  px-2 py-1 rounded-lg">
+              <span className="w-3 h-3 rounded-full bg-black border border-neutral-200"></span>
+              <span>مشکی</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-neutral-100 px-2 py-1 rounded-lg">
+              <span className="material-symbols-outlined text-sm">
+                sd_storage
+              </span>
+              <span>۱۲۸ گیگابایت</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-neutral-100  px-2 py-1 rounded-lg text-neutral-600 ">
+              <span className="material-symbols-outlined text-sm text-primary">
+                verified_user
+              </span>
+              <span>گارانتی ۱۸ ماهه</span>
+            </div>
+          </div> */}
         </div>
-
-        <div class="flex items-end justify-between mt-2">
-          <div class="flex flex-col">
-            <p class="text-sm font-bold text-[#111318] dark:text-white">
-              {price}{" "}
-              <span class="text-[10px] font-normal text-gray-500">تومان</span>
-            </p>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-2">
+          <QuantityStepper data={data} />
+          <div className="flex items-center gap-1 text-primary w-full sm:w-auto justify-end">
+            <span className="text-xl font-black tracking-tight">
+              {price.toLocaleString()}
+            </span>
+            <span className="text-xs font-bold text-neutral-500">تومان</span>
           </div>
-
-          <QuantityStepper currentValue={data.quantity} data={data} />
         </div>
       </div>
     </div>
