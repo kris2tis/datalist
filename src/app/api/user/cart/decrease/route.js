@@ -3,8 +3,9 @@ import prisma from "../../../../../../lib/prisma";
 // حذف یا کاهش تعداد محصول از سبد
 export async function POST(req) {
   const body = await req.json();
-  const cartId = parseInt(body.cartId);
-  const productId = parseInt(body.productId);
+  
+  const cartId = body.cartId;
+  const productId = body.productId;
   if (!productId) return new Error("محصول وجود ندارد");
   if (!cartId) return new Error("سبد وجود ندارد");
 
