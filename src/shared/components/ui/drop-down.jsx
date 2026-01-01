@@ -7,12 +7,12 @@ export default function DropDown({ title, children }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div class="p-5">
+    <div  className="p-5">
       <div
         onClick={() => setIsOpen((prev) => !prev)}
         className="flex items-center justify-between cursor-pointer"
       >
-        <h4 class="font-bold text-sm ">{title}</h4>
+        <h4  className="font-bold text-sm ">{title}</h4>
         <div
           className={`${
             isOpen ? "rotate-270" : "rotate-90"
