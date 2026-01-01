@@ -4,22 +4,22 @@
   --primary: #ef394e;
   --light: #ffebee;
   --surface: #ffffff;
-  --text-main: #1f2937;
-  --text-muted: #6b7280;
+  --main: #1f2937;
+  --muted: #6b7280;
 }
 
 @theme inline {
   --color-primary: var(--primary);
   --color-light: var(--light);
-  --color-text-main: var(--text-main);
-  --color-text-muted: var(--text-muted);
+  --color-main: var(--main);
+  --color-muted: var(--muted);
 }
 
 body {
   min-height: max(884px, 100dvh);
   font-family: var(--modam-font);
   background-color: var(--surface);
-  color: var(--text-main);
+  color: var(--main);
 }
 
 @layer base {
@@ -29,5 +29,19 @@ body {
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  input {
+    @apply border-main ring-0
+  }
+  select{
+    @apply bg-main 
+  }
+  option{@apply text-light}
+  a{@apply cursor-pointer}
+  button{
+    @apply cursor-pointer
+  }
+  .toaster{
+    @apply cursor-grab
   }
 }

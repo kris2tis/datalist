@@ -4,6 +4,7 @@ import { authClient } from "../../../../lib/auth-client";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
+import { LogoutIcon } from "@/shared/assets/icons/icons";
 
 export default function SignoutButton() {
   const { push } = useRouter();
@@ -11,7 +12,7 @@ export default function SignoutButton() {
     const { error } = await authClient.signOut();
     if (!error?.message || !error?.status) {
       toast.success("از حساب خارج شدی");
-      push("/")
+      push("/");
     }
   };
 
@@ -19,12 +20,11 @@ export default function SignoutButton() {
     <Link
       onClick={signoutHandler}
       href="#"
-      className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/10 text-[#9db8a6] hover:text-red-400 transition-colors"
+      className="group bg-primary/10 text-primary border border-primary/10 font-bold transition-all duration-500 flex items-center  gap-3 px-4 py-3 rounded-xl"
     >
-      <div className="relative h-4 aspect-square">
-        <Image src={"/icons/signout.svg"} fill alt="sign out icon" />
-      </div>
-      <p className="text-sm font-medium leading-normal">خروج</p>
+      <LogoutIcon fill="fill-primary" />
+
+      <span className="font-medium leading-normal">خروج</span>
     </Link>
   );
 }

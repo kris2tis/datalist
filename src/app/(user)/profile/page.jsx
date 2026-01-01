@@ -95,7 +95,7 @@ const ProfileSidebar = ({data:{name , email , payment}}) => {
           className="flex items-center gap-3 px-5 py-4 text-text-main  hover:bg-background-light   border-transparent hover:border-border-light  transition-all"
           href="#bookmarks"
         >
-          <FavoritIcon svgClassName="w-5! aspect-square!" />
+          <FavoritIcon containerClassName="w-5! aspect-square!" />
           <span className="font-medium text-sm">علاقه‌مندی‌ها</span>
         </a>
         <SignoutButton />

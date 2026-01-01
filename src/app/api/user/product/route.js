@@ -19,7 +19,7 @@ export async function GET(request) {
     orderBy: { createdAt: sort },
   });
   return Response.json(
-    { productList: productList, message: "لیست محصولات" },
+    { data: productList, message: "لیست محصولات" },
     { status: 200 }
   );
 }

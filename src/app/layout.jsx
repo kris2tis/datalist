@@ -20,6 +20,7 @@ export default function RootLayout({ children }) {
             <Toaster
               style={{ fontFamily: "inherit" }}
               position="top-center"
+              className="toaster"
               toastOptions={{
                 classNames: { success: "succes-toast", error: "error-toast" },
               }}

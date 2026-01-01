@@ -12,7 +12,7 @@ export default function AdminPageHeader({ title, desctiption, path ,href="/admin
         </div>
         {["product", "category"].includes(path) && (
           <Link href={href}>
-            <button className="flex items-center justify-center gap-2 rounded-lg bg-primary hover:bg-primary/90 text-background-dark font-bold h-11 px-6 transition-all shadow-[0_0_15px_rgba(23,207,84,0.3)] shrink-0">
+            <button className="flex items-center justify-center gap-2 rounded-lg bg-primary hover:bg-primary/90 font-bold h-11 px-6 transition-all cursor-pointer shrink-0">
               <span>افزودن {title}</span>
             </button>
           </Link>
