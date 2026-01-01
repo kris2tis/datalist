@@ -20,14 +20,14 @@ export const SortBar = () => {
   };
 
   return (
-    <div class="flex items-center gap-4 mb-6 overflow-x-auto pb-2 scrollbar-hide">
-      <div class="bg-white px-4 py-2 rounded-xl border border-neutral-200 shadow-sm flex items-center gap-2 whitespace-nowrap">
-        <span class="material-symbols-outlined text-text-light text-lg">
+    <div  className="flex items-center gap-4 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+      <div  className="bg-white px-4 py-2 rounded-xl border border-neutral-200 shadow-sm flex items-center gap-2 whitespace-nowrap">
+        <span  className="material-symbols-outlined text-text-light text-lg">
           sort
         </span>
-        <span class="text-sm font-bold text-text-main">مرتب‌سازی:</span>
+        <span  className="text-sm font-bold text-text-main">مرتب‌سازی:</span>
       </div>
-      <div class="flex items-center gap-x-2 bg-white p-1 rounded-xl border border-neutral-200 shadow-sm w-full md:w-auto overflow-x-auto">
+      <div  className="flex items-center gap-x-2 bg-white p-1 rounded-xl border border-neutral-200 shadow-sm w-full md:w-auto overflow-x-auto">
         {sortsList.map((s, index) => {
           const isActive = s.englishTitle === searchParams.get("sort") || false;
           return (
@@ -41,7 +41,7 @@ export const SortBar = () => {
                 setQueryToUrl(params);
               }}
               key={index}
-              class={`px-4 py-1.5 text-sm font-bold ${isActive && "text-white bg-primary"}  rounded-lg shadow-sm transition-all whitespace-nowrap`}
+               className={`px-4 py-1.5 text-sm font-bold ${isActive && "text-white bg-primary"}  rounded-lg shadow-sm transition-all whitespace-nowrap`}
             >
               {s.title}
             </button>
