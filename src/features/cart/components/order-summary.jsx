@@ -5,7 +5,6 @@ import Img from "@/shared/components/ui/img";
 
 export default function OrderSummary({ data }) {
   const { Count, productItems: itemCount } = data.cart;
-  const total = Count.toLocaleString();
 
   return (
     <>
@@ -64,7 +63,7 @@ export default function OrderSummary({ data }) {
                   alt={"add to cart Icon"}
                   className={"h-5 aspect-square"}
                 />
-               <span  className="text-lg">تسویه حساب</span>
+                <CheckoutCTA  data={data}/>
               </div>
               <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
             </button>
@@ -98,7 +97,7 @@ export default function OrderSummary({ data }) {
               alt={"add to cart Icon"}
               className={"h-5 aspect-square"}
             />
-            تسویه حساب
+            <CheckoutCTA data={data} />
           </div>
         </button>
       </div>

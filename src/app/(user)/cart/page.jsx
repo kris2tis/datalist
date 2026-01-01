@@ -28,7 +28,7 @@ export default async function page() {
       </div>
     );
   return (
-    <div className="grow mx-auto px-4 lg:px-8 max-w-[1440px] py-8">
+    <div className="grow mx-auto px-4 lg:px-8 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative">
         <div className="lg:col-span-8 space-y-4">
           <TopBar itemCount={cartList?.length || 0} />
