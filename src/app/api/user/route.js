@@ -9,10 +9,25 @@ export async function GET() {
 
   const user = await prisma.user.findUnique({
     where: { id: id },
-    include: { bookmarks: true, cart: true },
+    include: {
+      bookmarks: { include: { product: true } },
+      cart: true,
+      payment: {
+        orderBy: { createdAt: "asc" },
+        include: { product: { select: { price: true } } },
+      },
+    },
   });
+
+  const customPayment = user.payment.map((p) => {
+    return {
+      ...p,
+      totalPrice: p.product.reduce((all, c) => (all += c.price), 0),
+    };
+  });
+  const userInfo = { ...user, payment: customPayment };
   return Response.json(
-    { user: user, message: "اطلاعات کاربر" },
+    { data: userInfo, message: "اطلاعات کاربر" },
     { status: 200 }
   );
 }
