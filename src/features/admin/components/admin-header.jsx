@@ -1,6 +1,6 @@
 export default function AdminHeader() {
     return (
-        <header className="flex items-center justify-between whitespace-nowrap border-b border-[#29382e] px-8 py-5 bg-[#111813]/50 backdrop-blur-sm z-10">
+        <header className="flex items-center justify-between whitespace-nowrap border-b  border-muted/10 px-8 py-5 bg-main backdrop-blur-sm z-10">
             <div className="flex items-center gap-8 w-full max-w-2xl">
                 <h2 className="text-white text-xl font-bold leading-tight tracking-[-0.015em] hidden lg:block">داشبورد</h2>
                 {/* Search Bar */}

@@ -43,7 +43,7 @@ export const UserTable = ({ data }) => {
                 </td>
                 <td className="p-4 text-right">
                   <span className="text-sm">
-                    {role === "USER" ? "کاربر" : "ADMIN"}
+                    {role === "USER" ? "کاربر" : "ادمین"}
                   </span>
                 </td>
                 <td>

@@ -30,7 +30,7 @@ export const InventoryTable = ({ data }) => {
             {data.map((product) => (
               <tr
                 key={product.id}
-                className="hover:bg-surface-dark/40 transition-colors group"
+                className="hover:bg-[#363636] transition-colors group "
               >
                 <td className="p-4 flex justify-start">
                   <div className="flex flex-col">

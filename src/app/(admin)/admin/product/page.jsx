@@ -33,6 +33,6 @@ export default async function Page() {
 
         <ProductTable data={productList} />
       </main>
- 
+
   );
 }

@@ -10,47 +10,46 @@ export default async function Page() {
     .then(({ data }) => data.data);
   const { topSellingProduct, recenetyPayment } = statistics || {};
   const { totalSale, totalSaleLastMonth } = sales || {};
+
   return (
-    <div className="flex-1 overflow-y-auto p-6 md:p-8">
-      <div className="flex flex-col gap-8 max-w-[1600px] mx-auto">
-        {/* KPI Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard
-            title="فروش کل"
-            value={totalSale.toLocaleString()}
-            icon="attach_money"
-          />
-          <StatCard
-            title="فروش این ماه"
-            value={totalSaleLastMonth.toLocaleString()}
-            icon="shopping_cart"
-          />
-        </div>
-
-        {/* Charts & Top Products (Simple Placeholder) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 rounded-2xl bg-surface-dark border border-[#29382e] p-6">
-            {/* بخش نمودار SVG خود را اینجا قرار دهید */}
-            <h3 className="text-white text-lg font-bold mb-4">تحلیل فروش</h3>
-            <div className="h-[300px] flex items-center justify-center border border-dashed border-[#29382e] rounded-lg">
-              نمودار فروش (SVG)
-            </div>
-          </div>
-
-          <TopProducts data={topSellingProduct} />
-        </div>
-
-        {/* Recent Orders Table */}
-        <RecentOrders data={recenetyPayment} />
+    <div className="flex flex-col gap-8 mx-auto">
+      {/* KPI Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard
+          title="فروش کل"
+          value={totalSale.toLocaleString()}
+          icon="attach_money"
+        />
+        <StatCard
+          title="فروش این ماه"
+          value={totalSaleLastMonth.toLocaleString()}
+          icon="shopping_cart"
+        />
       </div>
+
+      {/* Charts & Top Products (Simple Placeholder) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 rounded-2xl bg-surface-dark border border-[#29382e] p-6">
+          {/* بخش نمودار SVG خود را اینجا قرار دهید */}
+          <h3 className="text-white text-lg font-bold mb-4">تحلیل فروش</h3>
+          <div className="h-[300px] flex items-center justify-center border border-dashed border-[#29382e] rounded-lg">
+            نمودار فروش (SVG)
+          </div>
+        </div>
+
+        <TopProducts data={topSellingProduct} />
+      </div>
+
+      {/* Recent Orders Table */}
+      <RecentOrders data={recenetyPayment} />
     </div>
   );
 }
 
 const StatCard = ({ title, value }) => (
-  <div className="cursor-pointer flex flex-col gap-4 rounded-2xl p-6 bg-surface-dark border border-[#29382e] shadow-sm hover:border-primary/20 transition-all group">
+  <div className="cursor-pointer flex flex-col gap-4 rounded-2xl p-6 bg-surface-dark border border-muted/10 shadow-sm hover:border-primary/20 transition-all group">
     <div className="flex justify-between items-start">
-      <div className="  p-2 rounded-lg bg-[#29382e] text-white group-hover:bg-primary/20 group-hover:text-primary transition-colors">
+      <div className="p-2 rounded-lg text-white group-hover:bg-primary/20 group-hover:text-primary transition-colors">
         <div className="relative h-4 aspect-square">
           <Image src={"/icons/dollar.svg"} alt="dollar icon" fill />
         </div>
@@ -98,12 +97,14 @@ const TopProducts = ({ data }) => {
   if (!data?.length) return <span>کالایی خریداری نشده است</span>;
 
   return (
-    <div className="lg:col-span-1 rounded-2xl bg-surface-dark border border-[#29382e] p-6">
-      <h3 className="text-white text-lg font-bold mb-6">کالاهای پرفروش</h3>
-      <div className="flex flex-col gap-5">
-        {data.map((product) => (
-          <ProductItem key={product.id} {...product} />
-        ))}
+    <div className="flex flex-col justify-between lg:col-span-1 rounded-2xl bg-surface-dark border border-[#29382e] p-6">
+      <div>
+        <h3 className="text-white text-lg font-bold mb-6">کالاهای پرفروش</h3>
+        <div className="flex flex-col gap-5">
+          {data.map((product) => (
+            <ProductItem key={product.id} {...product} />
+          ))}
+        </div>
       </div>
       <button className="w-full mt-6 py-2 text-sm font-medium text-[#9db8a6] hover:text-white border border-[#29382e] hover:border-[#9db8a6] rounded-lg transition-colors">
         <Link href={"/admin/product"}>مشاهده همه محصولات</Link>
@@ -138,8 +139,7 @@ const StatusBadge = ({ status }) => {
 };
 
 const RecentOrders = ({ data }) => {
-  if (!data?.length) return <span>اخیرا کالایی خریداری نشده است</span>;
-  console.log(data);
+  if (!data?.length) return <span className="">اخیرا کالایی خریداری نشده است</span>;
   const price = data?.product?.reduce((a, c) => (a += c.price), 0) || 0;
 
   return (
@@ -148,7 +148,7 @@ const RecentOrders = ({ data }) => {
         <h2 className="text-white text-lg font-bold">سفارش‌های اخیر</h2>
 
         <button className="text-primary text-sm font-bold hover:underline flex items-center gap-1">
-          <Link href={"/admin/payment"}>مشاهده همه</Link>
+          <Link href={"/admin/payment"}>مشاهده همه سفارشات</Link>
         </button>
       </div>
       <div className="overflow-x-auto">

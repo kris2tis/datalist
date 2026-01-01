@@ -7,7 +7,7 @@ export default async function Sidebar() {
   const session = await auth.api.getSession({ headers: await headers() });
   const name = session?.user?.name || "";
   return (
-    <aside className=" hidden lg:flex w-64 flex-col border-l border-[#29382e] bg-[#111813] dark:bg-background-dark h-full  md:flex shrink-0">
+    <aside className=" hidden lg:flex w-64 flex-col border-l border-muted/10 bg-main h-full  md:flex shrink-0">
       <div className="flex h-full flex-col justify-between p-4">
         <div className="flex flex-col gap-6">
           <div className="flex gap-3 items-center px-2">
@@ -43,7 +43,7 @@ export default async function Sidebar() {
               label="دسته بندی"
             />
             <NavItem name={"user"} href="/admin/user" label="کاربران" />
-            <NavItem name={"alert"} href="/admin/alert" label="هشدار ها" />
+            <NavItem name={"inventory"} href="/admin/inventory" label="انبار" />
           </nav>
         </div>
         {/* Bottom Settings */}

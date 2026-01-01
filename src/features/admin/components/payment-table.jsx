@@ -34,7 +34,7 @@ function PaymentTableRow({ payment }) {
   const { id, user, date, createdAt: time } = payment;
   const price = payment.product.reduce((a, c) => (a += c.price), 0);
   return (
-    <tr className="hover:bg-[#222e25] transition-colors group">
+    <tr className="hover:bg-[#363636] transition-colors group">
       <td className="p-4">
         <span className="text-white text-sm font-mono tracking-wider">
           #{id}

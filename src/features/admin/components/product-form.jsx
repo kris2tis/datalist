@@ -95,7 +95,6 @@ export default function ProductForm({ mode, data }) {
       setIsLoading(false);
     }
   };
-
   const handleSubmitForm = (e) => {
     mode === "create" ? handleCreateProduct(e) : handleEditProduct(e);
   };
@@ -113,12 +112,12 @@ export default function ProductForm({ mode, data }) {
     });
   };
   return (
-    <div className="flex-1 overflow-y-hidden p-6 lg:p-10">
+    <div className="flex-1 overflow-y-hidden p-6 lg:p-10 ">
       <div className="mx-auto w-full ">
         <form onSubmit={handleSubmit(handleSubmitForm)}>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
             <div>
-              <h2 className="text-3xl font-black text-white tracking-tight mb-2">
+              <h2 className="text-3xl font-black   tracking-tight mb-2">
                 {mode === "create"
                   ? "افزودن محصول جدید"
                   : "بروزرسانی اطلاعات محصول"}
@@ -133,7 +132,7 @@ export default function ProductForm({ mode, data }) {
               <button
                 type="button"
                 onClick={() => push("/admin/product")}
-                className="px-5 py-2.5 rounded-lg border border-surface-border text-white hover:bg-surface-border font-medium text-sm transition-colors"
+                className="px-5 py-2.5 rounded-lg border border-surface-border   hover:bg-surface-border font-medium text-sm transition-colors"
               >
                 انصراف
               </button>
@@ -147,8 +146,8 @@ export default function ProductForm({ mode, data }) {
               <button
                 disabled={isloading}
                 className={`px-5 py-2.5 rounded-lg bg-primary ${
-                  isloading && "bg-gray-600 text-white"
-                } hover:bg-green-500 text-white font-bold text-sm shadow-lg shadow-primary/20 transition-all flex items-center gap-2
+                  isloading && "bg-gray-600  "
+                } hover:bg-green-500   font-bold text-sm shadow-lg shadow-primary/20 transition-all flex items-center gap-2
                 `}
               >
                 {mode === "create" ? "افزودن محصول جدید" : "بروزرسانی"}
@@ -171,8 +170,10 @@ export default function ProductForm({ mode, data }) {
                   <Categories
                     register={register}
                     data={data?.categories || []}
-                    selected={getValues("categoryId")}
-                    onChange={(value) => field.onChange(value)}
+                    onChange={(value) => {
+                      field.onChange(value);
+                      console.log(value);
+                    }}
                   />
                 )}
               />
@@ -245,15 +246,15 @@ const Property = ({ control }) => {
                 render={({ field }) => (
                   <>
                     <div className="flex justify-between items-center">
-                      <span className="text-black/70">{name}</span>
+                      <span className=" /70">{name}</span>
                       <span
                         onClick={() => remove(index)}
-                        className="bg-red-400 text-[10px] text-white rounded-md p-1 cursor-pointer"
+                        className="bg-red-400 text-[10px]   rounded-md p-1 cursor-pointer"
                       >
                         حذف
                       </span>
                     </div>
-                    <span className="text-black">{value}</span>
+                    <span className=" ">{value}</span>
                   </>
                 )}
                 name={`property.${index}`}
@@ -304,28 +305,28 @@ function ImageUploader({ register, image, setImage, setValue }) {
 
 function PublishStatusCard() {
   return (
-    <div className="bg-surface-dark border border-surface-border rounded-xl p-6">
-      <h3 className="text-lg font-bold text-white mb-4">وضعیت انتشار</h3>
+    <div className="border border-surface-border rounded-xl p-6">
+      <h3 className="text-lg font-bold   mb-4">وضعیت انتشار</h3>
       <div className="flex flex-col gap-4">
         {/* Status Indicator */}
-        <div className="flex items-center justify-between p-3 rounded-lg bg-background-dark border border-surface-border">
+        <div className="flex items-center justify-between p-3 rounded-lg  border border-surface-border">
           <div className="flex items-center gap-3">
             <span className="size-2.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.5)]"></span>
-            <span className="text-white text-sm">پیش‌نویس</span>
+            <span className="  text-sm">پیش‌نویس</span>
           </div>
-          <button className="text-xs text-primary hover:text-white transition-colors">
+          <button className="text-xs text-primary hover:  transition-colors">
             تغییر
           </button>
         </div>
         {/* Visibility */}
         <div className="flex items-center justify-between">
           <span className="text-sm text-text-muted">قابلیت مشاهده</span>
-          <span className="text-sm text-white font-medium">عمومی</span>
+          <span className="text-sm   font-medium">عمومی</span>
         </div>
         {/* Publish Time */}
         <div className="flex items-center justify-between">
           <span className="text-sm text-text-muted">زمان انتشار</span>
-          <span className="text-sm text-white font-medium">فوری</span>
+          <span className="text-sm   font-medium">فوری</span>
         </div>
       </div>
     </div>
@@ -333,18 +334,16 @@ function PublishStatusCard() {
 }
 function PricingCard({ register }) {
   return (
-    <div className="bg-surface-dark border border-surface-border rounded-xl p-6">
-      <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+    <div className="border border-surface-border rounded-xl p-6">
+      <h3 className="text-lg font-bold   mb-6 flex items-center gap-2">
         قیمت گذاری
       </h3>
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-white">
-            قیمت پایه (تومان)
-          </label>
+          <label className="text-sm font-medium  ">قیمت پایه (تومان)</label>
           <input
             {...register("price")}
-            className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3 text-white placeholder-text-muted focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none"
+            className="w-full border border-surface-border rounded-lg px-4 py-3   placeholder-text-muted focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none"
             placeholder="0"
             type="text"
             dir="ltr"
@@ -352,11 +351,11 @@ function PricingCard({ register }) {
           />
         </div>
         {/* <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-white">
+          <label className="text-sm font-medium  ">
             قیمت فروش ویژه
           </label>
           <input
-            className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3 text-white placeholder-text-muted focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none"
+            className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3   placeholder-text-muted focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none"
             placeholder="0"
             type="text"
             dir="ltr"
@@ -369,17 +368,17 @@ function PricingCard({ register }) {
 
 function InventoryCard({ register }) {
   return (
-    <div className="bg-surface-dark border border-surface-border rounded-xl p-6">
-      <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+    <div className="border border-surface-border rounded-xl p-6">
+      <h3 className="text-lg font-bold   mb-6 flex items-center gap-2">
         موجودی
       </h3>
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-white">تعداد موجودی</label>
+          <label className="text-sm font-medium  ">تعداد موجودی</label>
           <input
             name="quantity"
             {...register("quantity")}
-            className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3 text-white placeholder-text-muted focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none"
+            className="w-full border border-surface-border rounded-lg px-4 py-3   placeholder-text-muted focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none"
             placeholder="0"
             type="number"
             dir="ltr"
@@ -391,7 +390,7 @@ function InventoryCard({ register }) {
 }
 
 const Tag = ({ text }) => (
-  <span className="px-2 py-1 bg-surface-border rounded text-xs text-white flex items-center gap-1">
+  <span className="px-2 py-1 bg-surface-border rounded text-xs   flex items-center gap-1">
     {text}
     <button className="hover:text-red-400">
       <span className="material-symbols-outlined text-[14px]">close</span>
@@ -401,18 +400,19 @@ const Tag = ({ text }) => (
 
 function Categories({ data, selected, onChange }) {
   return (
-    <div className="bg-surface-dark border border-surface-border rounded-xl p-6">
-      <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+    <div className=" border border-surface-border rounded-xl p-6">
+      <h3 className="text-lg font-bold   mb-6 flex items-center gap-2">
         دسته‌بندی
       </h3>
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-white">دسته اصلی</label>
+          <label className="text-sm font-medium  ">دسته اصلی</label>
           <div className="relative">
             <select
               onChange={(e) => onChange(e.target.value)}
-              className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3 text-white focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none appearance-none cursor-pointer"
+              className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3   focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none appearance-none cursor-pointer"
             >
+              <option>لطفا یک دسته بندی انتخاب کنید</option>
               {data.map((category) => (
                 <option
                   selected={selected === category.id}
@@ -432,17 +432,17 @@ function Categories({ data, selected, onChange }) {
 
 function GeneralInfoCard({ register }) {
   return (
-    <div className="bg-surface-dark border border-surface-border rounded-xl p-6">
-      <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+    <div className="bg-surface-dark border rounded-xl p-6">
+      <h3 className="text-lg font-bold   mb-6 flex items-center gap-2">
         اطلاعات پایه
       </h3>
       <div className="flex flex-col gap-5">
         {/* Product Name */}
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-white">نام محصول</label>
+          <label className="text-sm font-medium  ">نام محصول</label>
           <input
             {...register("title")}
-            className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3 text-white placeholder-text-muted focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none"
+            className="w-full border  rounded-lg px-4 py-3  placeholder-text-muted    transition-all outline-none"
             placeholder="مثال: کفش ورزشی نایک مدل ایرمکس"
             type="text"
             name="title"
@@ -450,14 +450,14 @@ function GeneralInfoCard({ register }) {
         </div>
         {/* Description Editor */}
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-white">توضیحات</label>
-          <div className="bg-background-dark border border-surface-border rounded-lg overflow-hidden flex flex-col min-h-[200px]">
+          <label className="text-sm font-medium  ">توضیحات</label>
+          <div className=" border  rounded-lg overflow-hidden flex flex-col min-h-[200px]">
             {/* Simple Toolbar */}
-            <div className="flex items-center gap-1 p-2 border-b border-surface-border bg-surface-border/30 overflow-x-auto"></div>
+            <div className="flex items-center gap-1 p-2 border-b  bg-surface-border/30 overflow-x-auto"></div>
             <textarea
               {...register("content")}
               name="content"
-              className="flex-1 w-full bg-transparent border-none p-4 text-white placeholder-text-muted focus:ring-0 resize-none"
+              className="flex-1 w-full bg-transparent border-none p-4   placeholder-text-muted focus:ring-0 resize-none"
               placeholder="توضیحات کامل محصول را اینجا بنویسید..."
             ></textarea>
           </div>
@@ -468,7 +468,7 @@ function GeneralInfoCard({ register }) {
 }
 
 const SampleImage = ({ src }) => (
-  <div className="relative group aspect-square rounded-lg overflow-hidden border border-surface-border">
+  <div className="relative group aspect-square rounded-lg overflow-hidden ">
     <img
       className="w-full h-full object-cover"
       alt="پیش نمایش تصویر محصول"
@@ -476,7 +476,7 @@ const SampleImage = ({ src }) => (
     />
     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
       <button
-        className="p-1.5 bg-red-500/80 rounded hover:bg-red-600 text-white transition-colors"
+        className="p-1.5 bg-red-500/80 rounded hover:bg-red-600   transition-colors"
         title="حذف"
       >
         <span className="material-symbols-outlined text-[18px]">delete</span>
@@ -488,7 +488,7 @@ const SampleImage = ({ src }) => (
 function MediaUploadCard() {
   return (
     <div className="bg-surface-dark border border-surface-border rounded-xl p-6">
-      <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+      <h3 className="text-lg font-bold   mb-6 flex items-center gap-2">
         <span className="material-symbols-outlined text-primary">
           imagesmode
         </span>
@@ -501,7 +501,7 @@ function MediaUploadCard() {
             cloud_upload
           </span>
         </div>
-        <p className="text-white font-medium mb-1">
+        <p className="  font-medium mb-1">
           برای آپلود کلیک کنید یا فایل را اینجا رها کنید
         </p>
         <p className="text-text-muted text-sm">PNG, JPG تا ۱۰ مگابایت</p>
@@ -519,22 +519,22 @@ function MediaUploadCard() {
 function VariantsCard() {
   return (
     <div className="bg-surface-dark border border-surface-border rounded-xl p-6">
-      <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+      <h3 className="text-lg font-bold   mb-6 flex items-center gap-2">
         ویژگی‌ها
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-white">رنگ‌ها</label>
+          <label className="text-sm font-medium  ">رنگ‌ها</label>
           <input
-            className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3 text-white placeholder-text-muted focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none"
+            className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3   placeholder-text-muted focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none"
             placeholder="مثال: قرمز، آبی"
             type="text"
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-white">سایزها</label>
+          <label className="text-sm font-medium  ">سایزها</label>
           <input
-            className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3 text-white placeholder-text-muted focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none"
+            className="w-full bg-background-dark border border-surface-border rounded-lg px-4 py-3   placeholder-text-muted focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none"
             placeholder="مثال: XL, L, M"
             type="text"
           />
