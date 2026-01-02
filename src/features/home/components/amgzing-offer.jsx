@@ -1,10 +1,16 @@
-import { http } from "@/httpServices";
 import Img from "@/shared/components/ui/img";
 import Link from "next/link";
 import BestSelingProducts from "./best-seling-product-list";
+import prisma from "../../../../lib/prisma";
 
 export const ProductAmagzingOffer = async () => {
-  const product = await http.get("/user/product").then(({ data }) => data.data);
+  async function getProductList() {
+    "use server";
+
+    return await prisma.product.findMany();
+  }
+
+  const product = await getProductList();
 
   const thereIsProduct = product?.length;
   return (
