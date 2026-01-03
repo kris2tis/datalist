@@ -16,7 +16,7 @@ export const Header = () => {
               <Img
                 src={"/brand/logo.svg"}
                 alt={"cart icon"}
-                className={"h-20 aspect-video"}
+                className={"h-15 aspect-video"}
               />
             </Link>
 
