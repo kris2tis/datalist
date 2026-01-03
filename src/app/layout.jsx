@@ -3,11 +3,6 @@ import { modam } from "../constants/font";
 import { Toaster } from "sonner";
 import ReactQueryProvider from "../shared/components/providers/react-query";
 
-export const metadata = {
-  title: "دیتالیست",
-  description: "اینجا دیتا هاتو جمع میکنیم",
-};
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en" dir="rtl">

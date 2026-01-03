@@ -6,6 +6,10 @@ import { Suspense } from "react";
 import { auth } from "../../../../lib/auth";
 import { headers } from "next/headers";
 
+export const metadata = {
+  title: "محصولات",
+};
+
 export default async function Page({ searchParams }) {
   const params = await searchParams;
 

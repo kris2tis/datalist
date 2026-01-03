@@ -3,6 +3,10 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import AuthForm from "../../../features/auth/components/auth-form";
 
+export const metadata = {
+  title: "ورود",
+};
+
 export default async function Page() {
   const session = await auth.api.getSession({
     headers: await headers(),

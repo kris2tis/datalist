@@ -2,6 +2,10 @@ import Link from "next/link";
 import { http } from "../../../httpServices";
 import Image from "next/image";
 
+export const metadata = {
+  title: "داشبورد ادمین",
+};
+
 export const dynamic = "force-dynamic";
 
 export default async function Page() {

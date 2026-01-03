@@ -4,6 +4,10 @@ import { CartItemCard } from "../../../features/cart/components/cart-card";
 import { TopBar } from "../../../features/cart/components/top-bar";
 import OrderSummary from "../../../features/cart/components/order-summary";
 
+export const metadata = {
+  title: "سبد خرید",
+};
+
 import Link from "next/link";
 import { headers } from "next/headers";
 

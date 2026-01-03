@@ -2,6 +2,10 @@ import ReviewCard from "../../../features/feedback/components/review-cart";
 import CommentForm from "../../../features/feedback/components/comment-form";
 import { http } from "../../../httpServices";
 
+export const metadata = {
+  title: "نظرات و انتقادات",
+};
+
 export const dynamic = "force-dynamic";
 export default async function Page() {
   const feedback = await http.get("/user/feedback").then(({ data }) => data);

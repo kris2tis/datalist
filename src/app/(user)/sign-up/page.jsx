@@ -3,6 +3,10 @@ import { auth } from "../../../../lib/auth";
 import { headers } from "next/headers";
 import AuthForm from "../../../features/auth/components/auth-form";
 
+export const metadata = {
+  title: "ثبت نام",
+};
+
 export default async function Page() {
   const session = await auth.api.getSession({
     headers: await headers(),

@@ -8,6 +8,10 @@ import Img from "@/shared/components/ui/img";
 import { FavoritIcon } from "@/shared/assets/icons/icons";
 import SignoutButton from "@/shared/components/ui/signout-button";
 
+export const metadata = {
+  title: "حساب کاربری",
+};
+
 export const dynamic = "force-dynamic";
 export default async function Page() {
   const user = await http
